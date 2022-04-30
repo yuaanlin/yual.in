@@ -45,44 +45,39 @@ export default function () {
                 {data[0].title}
               </p>
               <p className="text-zinc-600 mt-4">
-                本文是本系列的前端教學的第一篇，在本系列的前端教學中，我們會透過 Typescript 寫一個 React 的網頁
-                App，並且可以直接把相同的概念移植到 React Native，就可以直接開發手機 App了。
+                {data[0].content.substring(0, 100)} ...
               </p>
             </div>
           </Link>}
           <div className="w-full flex flex-row">
             <div className="w-1/2">
-              {(data && data[0]) && <Link href={'/posts/' + data[0]._id}>
+              {(data && data[3]) && <Link href={'/posts/' + data[3]._id}>
                 <div className="w-full p-8">
                   <img
-                    src={data[0].coverImageUrl}
+                    src={data[3].coverImageUrl}
                     className="w-full object-cover h-48 rounded-lg"
                     alt="" />
                   <p className="font-extrabold text-xl mt-6">
-                    {data[0].title}
+                    {data[3].title}
                   </p>
                   <p className="text-zinc-600 mt-4">
-                    本文是本系列的前端教學的第一篇，在本系列的前端教學中，我們會透過 Typescript 寫一個 React
-                    的網頁
-                    App，並且可以直接把相同的概念移植到 React Native，就可以直接開發手機 App了。
+                    {data[3].content.substring(0, 100)} ...
                   </p>
                 </div>
               </Link>}
             </div>
             <div className="w-1/2">
-              {(data && data[0]) && <Link href={'/posts/' + data[0]._id}>
+              {(data && data[4]) && <Link href={'/posts/' + data[4]._id}>
                 <div className="w-full p-8">
                   <img
-                    src={data[0].coverImageUrl}
+                    src={data[4].coverImageUrl}
                     className="w-full object-cover h-48 rounded-lg"
                     alt="" />
                   <p className="font-extrabold text-xl mt-6">
-                    {data[0].title}
+                    {data[4].title}
                   </p>
                   <p className="text-zinc-600 mt-4">
-                    本文是本系列的前端教學的第一篇，在本系列的前端教學中，我們會透過 Typescript 寫一個 React
-                    的網頁
-                    App，並且可以直接把相同的概念移植到 React Native，就可以直接開發手機 App了。
+                    {data[4].content.substring(0, 100)} ...
                   </p>
                 </div>
               </Link>}
@@ -100,8 +95,7 @@ export default function () {
                 {data[1].title}
               </p>
               <p className="text-zinc-600 mt-4 text-sm">
-                本文是本系列的前端教學的第二篇，在本系列的前端教學中，我們會透過 Typescript 寫一個 React 的網頁
-                App，並且可以直接把相同的概念移植到 React Native，就可以直接開發手機 App了。
+                {data[1].content.substring(0, 100)} ...
               </p>
             </div>
           </Link>}
@@ -115,8 +109,7 @@ export default function () {
                 {data[2].title}
               </p>
               <p className="text-zinc-600 mt-4 text-sm">
-                本文是本系列的前端教學的第二篇，在本系列的前端教學中，我們會透過 Typescript 寫一個 React 的網頁
-                App，並且可以直接把相同的概念移植到 React Native，就可以直接開發手機 App了。
+                {data[2].content.substring(0, 100)} ...
               </p>
             </div>
           </Link>}
