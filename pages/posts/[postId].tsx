@@ -34,7 +34,7 @@ export default function () {
   return (
     <div>
       <Head>
-        <title>Blog | Yuanlin Lin 林沅霖</title>
+        <title>{post ? post.title : 'Blog'} | Yuanlin Lin 林沅霖</title>
         <link rel="icon" href="/favicon.png" />
         <meta
           name="description"
