@@ -46,8 +46,8 @@ export default function () {
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
          relative flex justify-center">
         <img
-          src="https://remix.run/blog-images/headers/not-another-framework.jpg"
-          className="absolute top-0 w-full h-full object-cover"
+          src={post?.coverImageUrl}
+          className="absolute top-0 w-full h-full object-cover bg-zinc-500"
           alt="" />
         <div
           className="w-full h-full absolute top-0
@@ -56,7 +56,7 @@ export default function () {
           className="w-[650px] mx-auto absolute lg:bottom-24 bottom-12">
           <p
             className="text-white text-5xl font-extrabold"
-            style={{ wordBreak: 'keep-all', lineHeight: 1.5 }}>
+            style={{ lineHeight: 1.5 }}>
             {post?.title}
           </p>
           <div className="flex flex-row mt-8 align-bottom">
