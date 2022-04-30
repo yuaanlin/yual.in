@@ -9,16 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mdx-js/react": "^2.1.1",
-    "@mdx-js/runtime": "^1.6.22",
     "@types/nprogress": "^0.2.0",
     "mongodb": "^4.5.0",
     "next": "12.1.5",
     "next-mdx-remote": "^4.0.3",
     "nprogress": "^0.2.0",
     "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "runtime": "link:@types/@mdx-js/runtime"
+    "react-dom": "18.1.0"
   },
   "devDependencies": {
     "@types/node": "17.0.30",
