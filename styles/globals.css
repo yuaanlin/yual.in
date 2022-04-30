@@ -1,16 +1,29 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#article h1 {
+    @apply text-3xl font-extrabold mt-32 mb-16
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+#article h2 {
+    @apply text-xl font-bold mt-24 mb-12
 }
 
-* {
-  box-sizing: border-box;
+#article p {
+    line-height: 1.8;
+    @apply text-gray-500 my-8
+}
+
+#nprogress .bar {
+    background: #c9ada7 !important;
+    height: 4px !important;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px #e0c2bb, 0 0 5px #c9ada7 !important;
+}
+
+#nprogress .spinner {
+    display: none !important;
 }
