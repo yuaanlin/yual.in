@@ -26,7 +26,8 @@ export default async function generateImage(req: any, res: any) {
     const coverBuffer = arrayBufferToBuffer(await cover.arrayBuffer());
     const coverImage = new Image();
     coverImage.src = coverBuffer;
-    const description = content.replace(/<[^>]+>/g, '').slice(0, 80) + '...';
+    const description = content.replace(/<[^>]+>/g, '')
+      .slice(0, 80).trim() + ' ...';
     const WIDTH = 1200;
     const HEIGHT = 768;
     const canvas = new Canvas(WIDTH, HEIGHT);
@@ -38,7 +39,7 @@ export default async function generateImage(req: any, res: any) {
     ctx.fillStyle = '#fff';
     ctx.font = '800 64px NotoSansTC-Bold';
     printAt(ctx, 'Yuanlin', 96, 180, 96, WIDTH);
-    ctx.fillStyle = '#bba59f';
+    ctx.fillStyle = '#f2e9e4';
     ctx.font = '800 48px NotoSansTC-Bold';
     printAt(ctx, 'Blog', 340, 180, 96, WIDTH);
     ctx.font = '800 64px NotoSansTC-Bold';
@@ -71,11 +72,11 @@ function printAt(context: any, text: string, x: number, y: number, lineHeight: n
     return;
   }
 
-  for (var idx = 1; idx <= text.length; idx++) {
-    var str = text.substr(0, idx);
+  for (let idx = 1; idx <= text.length; idx++) {
+    const str = text.substring(0, idx);
     if (context.measureText(str).width > fitWidth) {
-      context.fillText(text.substr(0, idx - 1), x, y);
-      printAt(context, text.substr(idx - 1),
+      context.fillText(text.substring(0, idx - 1), x, y);
+      printAt(context, text.substring(idx - 1),
         x, y + lineHeight, lineHeight, fitWidth);
       return;
     }
