@@ -1,8 +1,6 @@
+import getPost from '../../services/getPost';
+import arrayBufferToBuffer from '../../utils/arrayBufferToBuffer';
 import { Canvas, GlobalFonts, Image } from '@napi-rs/canvas';
-
-const NAPI_RS_IMAGE = new Image();
-NAPI_RS_IMAGE.width = 320;
-NAPI_RS_IMAGE.height = 320;
 
 const SUPPORTED_ENCODING = new Set(['png', 'avif', 'webp']);
 const MIME_MAP: any = {
@@ -17,46 +15,52 @@ const MIME_MAP: any = {
  */
 export default async function generateImage(req: any, res: any) {
   const font = await fetch('https://blog.linyuanlin.com/NotoSansTC-Bold.otf');
-  const fontBuffer = await font.arrayBuffer();
-  const b = new Buffer(fontBuffer.byteLength);
-  const view = new Uint8Array(fontBuffer);
-  for (var i = 0; i < b.length; ++i) {
-    b[i] = view[i];
-  }
-  GlobalFonts.register(b, 'NotoSansTC-Bold');
-  const { title, description } = req.query;
-  const WIDTH = 1200;
-  const HEIGHT = 768;
-  const canvas = new Canvas(WIDTH, HEIGHT);
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#c9ada7';
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  ctx.save();
-  ctx.fillStyle = '#000';
-  ctx.font = '800 64px NotoSansTC-Bold';
-  printAt(ctx, 'Yuanlin', 96, 240, 96, WIDTH);
-  ctx.fillStyle = '#72554f';
-  ctx.font = '800 48px NotoSansTC-Bold';
-  printAt(ctx, 'Blog', 340, 240, 96, WIDTH);
-  ctx.font = '800 82px NotoSansTC-Bold';
-  ctx.fillStyle = '#000';
+  const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
+  GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
+  const { url } = req.query;
+  if (url.startsWith('/posts')) {
+    const postId = url.split('/')[2];
+    const post = await getPost(postId);
+    const { title, content, coverImageUrl } = post;
+    const cover = await fetch(coverImageUrl);
+    const coverBuffer = arrayBufferToBuffer(await cover.arrayBuffer());
+    const coverImage = new Image();
+    coverImage.src = coverBuffer;
+    const description = content.replace(/<[^>]+>/g, '').slice(0, 80) + '...';
+    const WIDTH = 1200;
+    const HEIGHT = 768;
+    const canvas = new Canvas(WIDTH, HEIGHT);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(coverImage, 0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = 'rgba(0,0,0,0.8)';
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.save();
+    ctx.fillStyle = '#fff';
+    ctx.font = '800 64px NotoSansTC-Bold';
+    printAt(ctx, 'Yuanlin', 96, 180, 96, WIDTH);
+    ctx.fillStyle = '#bba59f';
+    ctx.font = '800 48px NotoSansTC-Bold';
+    printAt(ctx, 'Blog', 340, 180, 96, WIDTH);
+    ctx.font = '800 64px NotoSansTC-Bold';
+    ctx.fillStyle = '#fff';
 
-  printAt(ctx, title, 96, HEIGHT / 2, 96, WIDTH - 192);
-  ctx.font = '800 48px NotoSansTC-Bold';
-  ctx.fillStyle = 'rgba(0,0,0,0.3)';
-  printAt(ctx, description, 96, HEIGHT - 200, 96, WIDTH - 192);
-  ctx.restore();
-  const { type = 'png' } = req.query;
-  let encodeType: any;
-  if (SUPPORTED_ENCODING.has(type)) {
-    encodeType = type;
-  } else {
-    encodeType = 'png';
+    printAt(ctx, title, 96, HEIGHT / 2 - 64, 96, WIDTH - 192);
+    ctx.font = '800 36px NotoSansTC-Bold';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    printAt(ctx, description, 96, HEIGHT - 200, 48, WIDTH - 192);
+    ctx.restore();
+    const { type = 'png' } = req.query;
+    let encodeType: any;
+    if (SUPPORTED_ENCODING.has(type)) {
+      encodeType = type;
+    } else {
+      encodeType = 'png';
+    }
+    const buffer = await canvas.encode(encodeType);
+    res.setHeader('Content-Type', MIME_MAP[encodeType]);
+    res.setHeader('Content-Disposition', 'inline');
+    res.send(buffer);
   }
-  const buffer = await canvas.encode(encodeType);
-  res.setHeader('Content-Type', MIME_MAP[encodeType]);
-  res.setHeader('Content-Disposition', 'inline');
-  res.send(buffer);
 }
 
 function printAt(context: any, text: string, x: number, y: number, lineHeight: number, fitWidth: number) {

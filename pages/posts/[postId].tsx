@@ -37,8 +37,7 @@ export default function (props: { postId: string, post?: Post }) {
       <PageHead
         title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
         type="article"
-        imageUrl={`/api/og_image?title=${post?.title
-        }&description=${post?.content.substring(0, 30)}`}
+        imageUrl={`/api/og_image?url=/posts/${postId}`}
         description={post?.content.substring(0, 100) + '...'}
       />
       <div
