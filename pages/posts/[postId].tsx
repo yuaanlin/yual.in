@@ -7,7 +7,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
 
-export default function (props: {postId: string, post?: Post}) {
+export default function (props: { postId: string, post?: Post }) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
   const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
@@ -27,7 +27,9 @@ export default function (props: {postId: string, post?: Post}) {
   }
 
   useEffect(() => {
-    (async () => {await refresh();})();
+    (async () => {
+      await refresh();
+    })();
   }, []);
 
   return (
@@ -35,6 +37,7 @@ export default function (props: {postId: string, post?: Post}) {
       <PageHead
         title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
         type="article"
+        imageUrl={`/api/og_image?title=${post?.title}&description=${post?.content.substring(0, 30)}`}
         description={post?.content.substring(0, 100) + '...'}
       />
       <div
@@ -88,42 +91,42 @@ export default function (props: {postId: string, post?: Post}) {
 function AuthorSkeleton() {
   return <div className="flex flex-row align-bottom mt-8 items-center">
     <div className="rounded-full h-8 w-8 mr-4 animate-pulse bg-zinc-500" />
-    <div className="bg-zinc-600 w-64 mr-4 animate-pulse h-6 rounded-lg"/>
-    <div className="bg-zinc-700 w-36 animate-pulse h-6 rounded-lg"/>
+    <div className="bg-zinc-600 w-64 mr-4 animate-pulse h-6 rounded-lg" />
+    <div className="bg-zinc-700 w-36 animate-pulse h-6 rounded-lg" />
   </div>;
 }
 
 function TitleSkeleton() {
   return <div>
-    <div className="bg-zinc-600 animate-pulse w-full h-8 lg:h-14 rounded-xl"/>
+    <div className="bg-zinc-600 animate-pulse w-full h-8 lg:h-14 rounded-xl" />
     <div
       className="bg-zinc-600 mt-4 animate-pulse
-    w-1/2 h-8 lg:h-14 rounded-xl"/>
+    w-1/2 h-8 lg:h-14 rounded-xl" />
   </div>;
 }
 
 function ArticleSkeleton() {
   return <div>
-    <div className="bg-zinc-200 animate-pulse w-full h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/2 h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/3 h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-full h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/4 h-4 rounded-lg"/>
-    <div className="bg-zinc-300 animate-pulse w-full h-8 my-16 rounded-lg"/>
-    <div className="bg-zinc-200 animate-pulse w-full h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/2 h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/3 h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-full h-4 rounded-lg"/>
-    <div className="bg-zinc-200 mt-4 animate-pulse w-1/4 h-4 rounded-lg"/>
+    <div className="bg-zinc-200 animate-pulse w-full h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/2 h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/3 h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-full h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/4 h-4 rounded-lg" />
+    <div className="bg-zinc-300 animate-pulse w-full h-8 my-16 rounded-lg" />
+    <div className="bg-zinc-200 animate-pulse w-full h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/2 h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/3 h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-full h-4 rounded-lg" />
+    <div className="bg-zinc-200 mt-4 animate-pulse w-1/4 h-4 rounded-lg" />
   </div>;
 }
 
 export async function getServerSideProps(context: NextPageContext) {
   const ua = context.req?.headers['user-agent'];
-  if(isUserAgentBrowser(ua))
+  if (isUserAgentBrowser(ua))
     return { props: { postId: context.query.postId } };
   const postId = context.query.postId;
-  if(typeof postId !== 'string')
+  if (typeof postId !== 'string')
     return { props: { error: 'Post not found.' } };
   try {
     const post = await getPost(postId);
