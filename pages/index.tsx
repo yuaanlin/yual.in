@@ -29,7 +29,7 @@ export default function () {
   }, []);
 
   return (
-    <div className="px-64 min-h-screen">
+    <div className="min-h-screen">
       <Head>
         <title>Blog | Yuanlin Lin 林沅霖</title>
         <link rel="icon" href="/favicon.png" />
@@ -39,20 +39,22 @@ export default function () {
           我熱愛產品設計與軟體開發，擅長分析複雜的問題並提供有效的解決方案。歡迎查看我的作品集與部落格！"
         />
       </Head>
-      <div className="container mx-auto flex flex-row">
-        <div className="w-2/3">
+      <div
+        className="container 2xl:px-32 px-0 lg:pl-24 mx-auto flex
+       flex-row pb-24 pt-24 lg:pt-0 flex-wrap">
+        <div className="w-full lg:w-2/3">
           <PostCard
             post={data ? data[0] : undefined}
             imageClassName="h-96"/>
-          <div className="w-full flex flex-row">
-            <div className="w-1/2">
+          <div className="w-full flex flex-row flex-wrap">
+            <div className="w-full lg:w-1/2">
               <PostCard
                 post={data ? data[3] : undefined}
                 imageClassName="h-64"
                 titleClassName="text-xl"
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-full lg:w-1/2">
               <PostCard
                 post={data ? data[4] : undefined}
                 imageClassName="h-64"
@@ -61,7 +63,7 @@ export default function () {
             </div>
           </div>
         </div>
-        <div className="w-1/3">
+        <div className="w-full lg:w-1/3">
           <PostCard
             post={data ? data[1] : undefined}
             imageClassName="h-64"

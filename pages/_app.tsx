@@ -14,7 +14,7 @@ const TopProgressBar = dynamic(
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <TopProgressBar />
-    <div className="w-64 fixed top-0 p-8">
+    <div className="w-full lg:w-64 fixed top-0 p-6 bg-white lg:bg-opacity-0">
       <Link href="/">
         <div className="font-extrabold text-3xl mb-0 cursor-pointer">
           <p>Yuanlin Lin</p>

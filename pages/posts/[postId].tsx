@@ -1,11 +1,9 @@
 import Post from '../../models/post';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
-import cx from 'classnames';
 
 export default function (props: {postId: string}) {
   const { postId } = props;
@@ -51,10 +49,12 @@ export default function (props: {postId: string}) {
         <div
           className="w-full h-full absolute top-0 right-0
          bg-black bg-opacity-60" />
-        <div className="w-[650px] mx-auto absolute lg:bottom-24 bottom-12">
+        <div
+          className="w-full px-4
+         lg:w-[650px] mx-auto absolute lg:bottom-24 bottom-12">
 
           {!post ? <TitleSkeleton /> : <p
-            className="text-white text-5xl font-extrabold"
+            className="text-white text-3xl lg:text-5xl font-extrabold"
             style={{ lineHeight: 1.5 }}>
             {post?.title}
           </p>}
@@ -75,7 +75,7 @@ export default function (props: {postId: string}) {
 
         </div>
       </div>
-      <div className="w-[650px] mx-auto min-h-screen">
+      <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen">
         <div id="article" className="mt-16 mb-32">
           {!post && <ArticleSkeleton />}
           {mdxSource && <MDXRemote {...mdxSource} components={{}} />}
@@ -95,8 +95,10 @@ function AuthorSkeleton() {
 
 function TitleSkeleton() {
   return <div>
-    <div className="bg-zinc-600 animate-pulse w-full h-14 rounded-xl"/>
-    <div className="bg-zinc-600 mt-4 animate-pulse w-1/2 h-14 rounded-xl"/>
+    <div className="bg-zinc-600 animate-pulse w-full h-8 lg:h-14 rounded-xl"/>
+    <div
+      className="bg-zinc-600 mt-4 animate-pulse
+    w-1/2 h-8 lg:h-14 rounded-xl"/>
   </div>;
 }
 

@@ -17,7 +17,9 @@ function PostCard(props: Props) {
         className={cx(imageClassName, 'w-full object-cover',
           'rounded-lg bg-zinc-200 animate-pulse')}
       />
-      <div className="w-96 h-8 mt-6 bg-zinc-300 animate-pulse rounded-lg" />
+      <div
+        className="w-full lg:w-96 h-8 mt-6 bg-zinc-300
+      animate-pulse rounded-lg" />
       <div className="w-72 h-4 mt-6 bg-zinc-100 animate-pulse rounded-lg" />
       <div className="w-48 h-4 mt-2 bg-zinc-100 animate-pulse rounded-lg" />
       <div className="w-64 h-4 mt-2 bg-zinc-100 animate-pulse rounded-lg" />
@@ -28,13 +30,20 @@ function PostCard(props: Props) {
     <div className="w-full p-8">
       <img
         src={post.coverImageUrl}
-        className={cx(imageClassName, 'w-full object-cover rounded-lg')}
+        className={cx(imageClassName, 'w-full object-cover transition',
+          'rounded-lg cursor-pointer shadow-lg hover:scale-105')}
         alt="" />
-      <p className={cx(titleClassName, 'font-extrabold text-3xl mt-6')}>
+      <p
+        className={cx(titleClassName, 'font-extrabold text-2xl',
+          'mt-6 cursor-pointer')}>
         {post.title}
       </p>
-      <p>{post.createdAt.toISOString()}</p>
-      <p className="text-zinc-600 mt-4">
+      <p
+        className="text-[#b2938d] font-extrabold
+      mt-2 cursor-pointer">
+        {post.createdAt.toISOString().split('T')[0]}
+      </p>
+      <p className="text-zinc-500 mt-4 cursor-pointer">
         {post.content.substring(0, 100)} ...
       </p>
     </div>
