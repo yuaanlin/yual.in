@@ -9,4 +9,13 @@ interface Post {
   content: string
 }
 
+export function parsePost(data?: Post) {
+  if(!data) return undefined;
+  return {
+    ...data,
+    createdAt: new Date(data.createdAt),
+    updatedAt: new Date(data.updatedAt)
+  };
+}
+
 export default Post;

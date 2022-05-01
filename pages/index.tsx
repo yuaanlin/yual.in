@@ -1,8 +1,7 @@
 import Post from '../models/post';
 import PostCard from '../components/PostCard';
-import Head from 'next/head';
+import PageHead from '../components/PageHead';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 export default function () {
   const [data, setData] = useState<Post[]>();
@@ -30,15 +29,7 @@ export default function () {
 
   return (
     <div className="min-h-screen">
-      <Head>
-        <title>Blog | Yuanlin Lin 林沅霖</title>
-        <link rel="icon" href="/favicon.png" />
-        <meta
-          name="description"
-          content="我是林沅霖，目前就讀於浙江大學資訊工程系。
-          我熱愛產品設計與軟體開發，擅長分析複雜的問題並提供有效的解決方案。歡迎查看我的作品集與部落格！"
-        />
-      </Head>
+      <PageHead />
       <div
         className="container 2xl:px-32 px-0 lg:pl-24 mx-auto flex
        flex-row py-8 lg:pb-24 lg:pt-24 lg:pt-0 flex-wrap">

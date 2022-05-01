@@ -1,14 +1,16 @@
-import Post from '../../models/post';
-import Head from 'next/head';
+import Post, { parsePost } from '../../models/post';
+import isUserAgentBrowser from '../../utils/isUserAgentBrowser';
+import getPost from '../../services/getPost';
+import PageHead from '../../components/PageHead';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
 
-export default function (props: {postId: string}) {
+export default function (props: {postId: string, post?: Post}) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
 
   async function refresh() {
     if (!postId) return;
@@ -30,15 +32,10 @@ export default function (props: {postId: string}) {
 
   return (
     <div>
-      <Head>
-        <title>{post ? post.title : 'Blog'} | Yuanlin Lin 林沅霖</title>
-        <link rel="icon" href="/favicon.png" />
-        <meta
-          name="description"
-          content="我是林沅霖，目前就讀於浙江大學資訊工程系。
-          我熱愛產品設計與軟體開發，擅長分析複雜的問題並提供有效的解決方案。歡迎查看我的作品集與部落格！"
-        />
-      </Head>
+      <PageHead
+        title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
+        description={post?.content.substring(0, 100) + '...'}
+      />
       <div
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
          relative flex justify-center">
@@ -120,6 +117,17 @@ function ArticleSkeleton() {
   </div>;
 }
 
-export function getServerSideProps(context: NextPageContext) {
-  return { props: { postId: context.query.postId } };
+export async function getServerSideProps(context: NextPageContext) {
+  const ua = context.req?.headers['user-agent'];
+  if(isUserAgentBrowser(ua))
+    return { props: { postId: context.query.postId } };
+  const postId = context.query.postId;
+  if(typeof postId !== 'string')
+    return { props: { error: 'Post not found.' } };
+  try {
+    const post = await getPost(postId);
+    return { props: { postId, post } };
+  } catch (error) {
+    return { props: { error } };
+  }
 }
