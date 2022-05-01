@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <TopProgressBar />
     <div className="w-full lg:w-64 fixed top-0 p-6 bg-white lg:bg-opacity-0">
-      <Link href="/">
+      <Link href="/" scroll>
         <div className="font-extrabold text-3xl mb-0 cursor-pointer">
           <p>Yuanlin Lin</p>
           <p className="text-lg text-[#c9ada7]">Blog</p>

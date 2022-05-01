@@ -26,7 +26,7 @@ function PostCard(props: Props) {
     </div>;
   }
 
-  return <Link href={'/posts/' + post._id}>
+  return <Link href={'/posts/' + post._id} scroll>
     <div className="w-full p-8">
       <img
         src={post.coverImageUrl}
