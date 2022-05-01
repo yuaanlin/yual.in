@@ -1,4 +1,4 @@
-import { Canvas, Image } from '@napi-rs/canvas';
+import { Canvas, GlobalFonts, Image } from '@napi-rs/canvas';
 
 const NAPI_RS_IMAGE = new Image();
 NAPI_RS_IMAGE.width = 320;
@@ -16,6 +16,14 @@ const MIME_MAP: any = {
  * @param {import('@vercel/node').VercelResponse} res
  */
 export default async function generateImage(req: any, res: any) {
+  const font = await fetch('https://blog.linyuanlin.com/NotoSansTC-Bold.otf');
+  const fontBuffer = await font.arrayBuffer();
+  const b = new Buffer(fontBuffer.byteLength);
+  const view = new Uint8Array(fontBuffer);
+  for (var i = 0; i < b.length; ++i) {
+    b[i] = view[i];
+  }
+  GlobalFonts.register(b, 'NotoSansTC-Bold');
   const { title, description } = req.query;
   const WIDTH = 1200;
   const HEIGHT = 768;
@@ -25,16 +33,16 @@ export default async function generateImage(req: any, res: any) {
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
   ctx.save();
   ctx.fillStyle = '#000';
-  ctx.font = '800 64px';
+  ctx.font = '800 64px NotoSansTC-Bold';
   printAt(ctx, 'Yuanlin', 96, 240, 96, WIDTH);
   ctx.fillStyle = '#72554f';
-  ctx.font = '800 48px';
+  ctx.font = '800 48px NotoSansTC-Bold';
   printAt(ctx, 'Blog', 340, 240, 96, WIDTH);
-  ctx.font = '800 82px';
+  ctx.font = '800 82px NotoSansTC-Bold';
   ctx.fillStyle = '#000';
 
   printAt(ctx, title, 96, HEIGHT / 2, 96, WIDTH - 192);
-  ctx.font = '800 48px';
+  ctx.font = '800 48px NotoSansTC-Bold';
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   printAt(ctx, description, 96, HEIGHT - 200, 96, WIDTH - 192);
   ctx.restore();
