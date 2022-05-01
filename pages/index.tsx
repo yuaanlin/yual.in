@@ -1,4 +1,5 @@
 import Post from '../models/post';
+import PostCard from '../components/PostCard';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -9,7 +10,12 @@ export default function () {
   async function refresh() {
     try {
       const res = await fetch('/api/posts');
-      const data = await res.json();
+      let data = await res.json();
+      data = data.map((post: Post) => ({
+        ...post,
+        createdAt: new Date(post.createdAt),
+        updatedAt: new Date(post.updatedAt)
+      }));
       setData(data);
     } catch (err) {
       console.error(err);
@@ -35,84 +41,37 @@ export default function () {
       </Head>
       <div className="container mx-auto flex flex-row">
         <div className="w-2/3">
-          {(data && data[0]) && <Link href={'/posts/' + data[0]._id}>
-            <div className="w-full p-8">
-              <img
-                src={data[0].coverImageUrl}
-                className="w-full object-cover h-96 rounded-lg"
-                alt="" />
-              <p className="font-extrabold text-3xl mt-6">
-                {data[0].title}
-              </p>
-              <p className="text-zinc-600 mt-4">
-                {data[0].content.substring(0, 100)} ...
-              </p>
-            </div>
-          </Link>}
+          <PostCard
+            post={data ? data[0] : undefined}
+            imageClassName="h-96"/>
           <div className="w-full flex flex-row">
             <div className="w-1/2">
-              {(data && data[3]) && <Link href={'/posts/' + data[3]._id}>
-                <div className="w-full p-8">
-                  <img
-                    src={data[3].coverImageUrl}
-                    className="w-full object-cover h-48 rounded-lg"
-                    alt="" />
-                  <p className="font-extrabold text-xl mt-6">
-                    {data[3].title}
-                  </p>
-                  <p className="text-zinc-600 mt-4">
-                    {data[3].content.substring(0, 100)} ...
-                  </p>
-                </div>
-              </Link>}
+              <PostCard
+                post={data ? data[3] : undefined}
+                imageClassName="h-64"
+                titleClassName="text-xl"
+              />
             </div>
             <div className="w-1/2">
-              {(data && data[4]) && <Link href={'/posts/' + data[4]._id}>
-                <div className="w-full p-8">
-                  <img
-                    src={data[4].coverImageUrl}
-                    className="w-full object-cover h-48 rounded-lg"
-                    alt="" />
-                  <p className="font-extrabold text-xl mt-6">
-                    {data[4].title}
-                  </p>
-                  <p className="text-zinc-600 mt-4">
-                    {data[4].content.substring(0, 100)} ...
-                  </p>
-                </div>
-              </Link>}
+              <PostCard
+                post={data ? data[4] : undefined}
+                imageClassName="h-64"
+                titleClassName="text-xl"
+              />
             </div>
           </div>
         </div>
         <div className="w-1/3">
-          {(data && data[1]) && <Link href={'/posts/' + data[1]._id}>
-            <div className="w-full p-8">
-              <img
-                src={data[1].coverImageUrl}
-                className="w-full object-cover h-48 rounded-lg"
-                alt="" />
-              <p className="font-extrabold text-xl mt-6">
-                {data[1].title}
-              </p>
-              <p className="text-zinc-600 mt-4 text-sm">
-                {data[1].content.substring(0, 100)} ...
-              </p>
-            </div>
-          </Link>}
-          {(data && data[2]) && <Link href={'/posts/' + data[2]._id}>
-            <div className="w-full p-8">
-              <img
-                src={data[2].coverImageUrl}
-                className="w-full object-cover h-48 rounded-lg"
-                alt="" />
-              <p className="font-extrabold text-xl mt-6">
-                {data[2].title}
-              </p>
-              <p className="text-zinc-600 mt-4 text-sm">
-                {data[2].content.substring(0, 100)} ...
-              </p>
-            </div>
-          </Link>}
+          <PostCard
+            post={data ? data[1] : undefined}
+            imageClassName="h-64"
+            titleClassName="text-xl"
+          />
+          <PostCard
+            post={data ? data[2] : undefined}
+            imageClassName="h-64"
+            titleClassName="text-xl"
+          />
         </div>
       </div>
     </div>

@@ -15,6 +15,23 @@
     @apply text-gray-500 my-8
 }
 
+#article img {
+    @apply my-16 shadow-lg rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-2xl
+}
+
+#article pre {
+    @apply text-gray-500 my-8 p-4 rounded-lg bg-gray-100 overflow-x-scroll
+}
+
+#article code {
+    @apply font-mono text-sm bg-gray-100 rounded-md py-1 px-2 mb-4 mt-4
+}
+
+#article a {
+    @apply mx-1 text-[#b2938d] hover:text-[#c9ada7] transition;
+    background-image: linear-gradient(transparent 60%, #f2e9e4 55%);
+}
+
 #nprogress .bar {
     background: #c9ada7 !important;
     height: 4px !important;
