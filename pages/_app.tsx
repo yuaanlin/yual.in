@@ -14,10 +14,14 @@ const TopProgressBar = dynamic(
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <TopProgressBar />
-    <div className="w-full lg:w-64 fixed top-0 p-6 bg-white lg:bg-opacity-0">
+    <div
+      className="w-full lg:w-64 fixed top-0 px-4
+     py-2 lg:p-6 bg-white lg:bg-opacity-0">
       <Link href="/" scroll>
-        <div className="font-extrabold text-3xl mb-0 cursor-pointer">
-          <p>Yuanlin Lin</p>
+        <div
+          className="font-extrabold text-xl lg:text-3xl
+        mb-0 cursor-pointer flex flex-row lg:flex-col items-baseline">
+          <p className="mr-2">Yuanlin Lin</p>
           <p className="text-lg text-[#c9ada7]">Blog</p>
         </div>
       </Link>

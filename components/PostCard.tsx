@@ -31,7 +31,7 @@ function PostCard(props: Props) {
       <img
         src={post.coverImageUrl}
         className={cx(imageClassName, 'w-full object-cover transition',
-          'rounded-lg cursor-pointer shadow-lg hover:scale-105')}
+          'rounded-lg cursor-pointer shadow-lg lg:hover:scale-105')}
         alt="" />
       <p
         className={cx(titleClassName, 'font-extrabold text-2xl',

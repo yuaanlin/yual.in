@@ -41,7 +41,7 @@ export default function () {
       </Head>
       <div
         className="container 2xl:px-32 px-0 lg:pl-24 mx-auto flex
-       flex-row pb-24 pt-24 lg:pt-0 flex-wrap">
+       flex-row py-8 lg:pb-24 lg:pt-24 lg:pt-0 flex-wrap">
         <div className="w-full lg:w-2/3">
           <PostCard
             post={data ? data[0] : undefined}

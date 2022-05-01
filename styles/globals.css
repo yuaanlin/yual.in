@@ -16,7 +16,7 @@
 }
 
 #article img {
-    @apply my-16 shadow-lg rounded-xl hover:scale-105 transition-all duration-200 hover:shadow-2xl
+    @apply my-16 shadow-lg rounded-xl lg:hover:scale-105 transition-all duration-200 hover:shadow-2xl
 }
 
 #article pre {

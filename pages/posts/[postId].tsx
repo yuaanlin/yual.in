@@ -65,10 +65,12 @@ export default function (props: {postId: string}) {
               src="https://avatars.githubusercontent.com/u/21105863"
               className="rounded-full h-8 w-8 mr-4"
               alt="" />
-            <p className="text-white text-xl font-extrabold opacity-80">
+            <p
+              className="text-white lg:text-xl
+             font-extrabold opacity-80">
               Yuanlin Lin 林沅霖
             </p>
-            <p className="text-white text-xl ml-8 opacity-60">
+            <p className="text-white lg:text-xl ml-2 lg:ml-8 opacity-60">
               {post?.createdAt.toISOString().split('T')[0]}
             </p>
           </div>}
