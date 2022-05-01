@@ -4,6 +4,7 @@ interface Props {
   title?: string;
   description?: string;
   imageUrl?: string;
+  type?: string;
 }
 
 function PageHead(props: Props) {
@@ -15,6 +16,7 @@ function PageHead(props: Props) {
       property="og:title"
       content={props?.title || 'Blog | Yuanlin Lin 林沅霖'}
       key="title" />
+    <meta property="og:type" content={props.type || 'website'} key="type" />
     <meta
       property="og:description"
       content={props?.description || '我是林沅霖，目前就讀於浙江大學資訊工程系。' +

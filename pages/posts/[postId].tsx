@@ -34,6 +34,7 @@ export default function (props: {postId: string, post?: Post}) {
     <div>
       <PageHead
         title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
+        type="article"
         description={post?.content.substring(0, 100) + '...'}
       />
       <div
