@@ -2,6 +2,7 @@ import Post, { parsePost } from '../../models/post';
 import isUserAgentBrowser from '../../utils/isUserAgentBrowser';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
+import SocialLinks from '../../components/SocialLinks';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -70,6 +71,7 @@ export default function (props: { postId: string, post?: Post }) {
             <p className="text-lg text-[#c9ada7]">Blog</p>
           </div>
         </Link>
+        <SocialLinks color="white" />
       </div>
       <div
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden

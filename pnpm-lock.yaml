@@ -22,6 +22,7 @@ specifiers:
   postcss: ^8.4.13
   react: 18.1.0
   react-dom: 18.1.0
+  react-feather: ^2.0.9
   tailwindcss: ^3.0.24
   typescript: 4.6.4
 
@@ -36,6 +37,7 @@ dependencies:
   nprogress: 0.2.0
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  react-feather: 2.0.9_react@18.1.0
 
 devDependencies:
   '@types/node': 17.0.30
@@ -2531,7 +2533,6 @@ packages:
   /object-assign/4.1.1:
     resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /object-hash/3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
@@ -2765,7 +2766,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /property-information/6.1.1:
     resolution: {integrity: sha512-hrzC564QIl0r0vy4l6MvRLhafmUowhO/O3KgVSoXIbbA2Sz4j8HGpJc6T2cubRVwMwpdiG/vKGfhT4IixmKN9w==}
@@ -2794,9 +2794,17 @@ packages:
       scheduler: 0.22.0
     dev: false
 
+  /react-feather/2.0.9_react@18.1.0:
+    resolution: {integrity: sha512-yMfCGRkZdXwIs23Zw/zIWCJO3m3tlaUvtHiXlW+3FH7cIT6fiK1iJ7RJWugXq7Fso8ZaQyUm92/GOOHXvkiVUw==}
+    peerDependencies:
+      react: ^16.8.6 || ^17
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.1.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react/18.1.0:
     resolution: {integrity: sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==}
