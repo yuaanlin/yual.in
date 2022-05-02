@@ -41,7 +41,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
     res.setHeader('Content-Type', 'text/html');
-    res.end(`<script>window.location.pathname = ${redirect}</script>`);
+    res.end(`<script>window.location.pathname = "${redirect}"</script>`);
     return;
   } else {
     const user = {
@@ -55,7 +55,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
     res.setHeader('Content-Type', 'text/html');
-    res.end(`<script>window.location.pathname = ${redirect}</script>`);
+    res.end(`<script>window.location.pathname = "${redirect}"</script>`);
     return;
   }
 }
