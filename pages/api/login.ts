@@ -40,7 +40,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = jwt.sign(user, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
-    res.write(`<script>window.location.pathname = ${redirect}</script>`);
+    res.setHeader('Content-Type', 'text/html');
+    res.end(`<script>window.location.pathname = ${redirect}</script>`);
     return;
   } else {
     const user = {
@@ -53,7 +54,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = jwt.sign(user, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
-    res.write(`<script>window.location.pathname = ${redirect}</script>`);
+    res.setHeader('Content-Type', 'text/html');
+    res.end(`<script>window.location.pathname = ${redirect}</script>`);
     return;
   }
 }
