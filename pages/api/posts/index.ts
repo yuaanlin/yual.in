@@ -25,6 +25,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           isSent = true;
         }
       }());
-      await Promise.all(promises);
+      try {
+        await Promise.all(promises);
+      } catch (err: any) {
+        console.error(err);
+        if (!isSent)
+          res.status(500).json({ error: err?.message });
+      }
   }
 }
