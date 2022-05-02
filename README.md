@@ -11,16 +11,19 @@ This is my blog. Built and deployed with following cool technologies:
 
 ## Milestones
 
-✅ Basic Home Page
-✅ Basic Post Page
-✅ Basic query posts API
-✅ Basic query post API
-✅ Redis caching for post API
-✅ Dynamic meta tags and og image
-👷 Query posts API paging and optimization
-👷 MDX components: <Callout />
-👷 MDX components: <Question /> (just like practice part of Next.js learning website)
-👷 Visitor Google Login
-👷 Give ❤️ Like to post
-👷 Comment on post
-👷 Reply comment
+- [x] Basic Home Page
+- [x] Basic Post Page
+- [x] Basic query posts API
+- [x] Basic query post API
+- [x] Redis caching for post API
+- [x] Dynamic meta tags and og image
+- [ ] Social media links
+- [ ] About author
+- [ ] Query posts API paging and optimization
+- [ ] MDX components: Callout
+- [ ] MDX components: Select Question (just like practice part of Next.js learning website)
+- [ ] Visitor Google Login
+- [ ] Give ❤️ Like to post
+- [ ] Comment on post
+- [ ] Reply comment
+- [ ] Recommeand posts at the end of post page
