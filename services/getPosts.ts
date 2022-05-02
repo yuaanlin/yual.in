@@ -8,7 +8,7 @@ const redisToken = process.env['REDIS_TOKEN'];
 
 export async function getPostsInMongo(): Promise<Post[]> {
   if (!uri) throw new Error('Server cannot connect to database.');
-  const client = new MongoClient(uri, { connectTimeoutMS: 5000 });
+  const client = new MongoClient(uri);
   try {
     await client.connect();
     const collection = client.db('blog').collection('posts');
