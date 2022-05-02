@@ -29,13 +29,13 @@ export default function () {
       <div
         className="container 2xl:px-32 px-0 lg:pl-24 mx-auto flex
        flex-row py-8 lg:pb-24 lg:pt-24 lg:pt-0 flex-wrap">
-        <div className="w-full flex flex-row">
+        <div className="w-full flex flex-row flex-wrap">
           <div className="w-full lg:w-2/3">
             <PostCard
               post={data ? data[0] : undefined}
               imageClassName="h-96" />
           </div>
-          <div className="w-full lg:w-1/3">
+          <div className="w-full lg:w-1/3 flex-wrap">
             <PostCard
               post={data ? data[1] : undefined}
               imageClassName="h-64"

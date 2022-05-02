@@ -20,7 +20,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       }());
       promises.push(async function () {
         const postsInRedis = await getPostsInRedis();
-        if (!isSent) {
+        if (!isSent && postsInRedis) {
           res.status(200).json(postsInRedis);
           isSent = true;
         }
