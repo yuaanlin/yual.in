@@ -43,7 +43,7 @@ export default function () {
             />
           </div>
         </div>
-        <div className="w-full flex flex-row">
+        <div className="w-full flex flex-row flex-wrap">
           {(data ? data.slice(2, 5) : [undefined, undefined, undefined])
             .map((post, i) => (
               <div

@@ -6,11 +6,14 @@ import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
+import Link from 'next/link';
+import cx from 'classnames';
 
 export default function (props: { postId: string, post?: Post }) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
   const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
+  const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
 
   async function refresh() {
     if (!postId) return;
@@ -32,6 +35,21 @@ export default function (props: { postId: string, post?: Post }) {
     })();
   }, []);
 
+  useEffect(() => {
+    function handleScroll() {
+      if (document.documentElement.scrollTop > 32 * 16) {
+        setShouldHideWhiteLogo(true);
+      } else {
+        setShouldHideWhiteLogo(false);
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div>
       <PageHead
@@ -40,6 +58,19 @@ export default function (props: { postId: string, post?: Post }) {
         imageUrl={`/api/og_image?url=/posts/${postId}`}
         description={post?.content.substring(0, 100) + '...'}
       />
+      <div
+        className={cx('w-full lg:w-64 fixed top-0 px-4',
+          'py-2 lg:p-6 lg:bg-white lg:bg-opacity-0 z-50 transition',
+          shouldHideWhiteLogo && 'opacity-0')}>
+        <Link href="/" scroll>
+          <div
+            className="font-extrabold text-xl lg:text-3xl
+        mb-0 cursor-pointer flex flex-row lg:flex-col items-baseline">
+            <p className="mr-2 text-white z-50">Yuanlin Lin</p>
+            <p className="text-lg text-[#c9ada7]">Blog</p>
+          </div>
+        </Link>
+      </div>
       <div
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
          relative flex justify-center">
