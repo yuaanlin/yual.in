@@ -10,9 +10,10 @@ interface Post {
 }
 
 export function parsePost(data?: Post) {
-  if(!data) return undefined;
+  if (!data) return undefined;
   return {
     ...data,
+    _id: new ObjectID(data._id),
     createdAt: new Date(data.createdAt),
     updatedAt: new Date(data.updatedAt)
   };

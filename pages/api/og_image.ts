@@ -33,13 +33,13 @@ export default async function generateImage(req: any, res: any) {
     const canvas = new Canvas(WIDTH, HEIGHT);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(coverImage, 0, 0, WIDTH, HEIGHT);
-    ctx.fillStyle = 'rgba(0,0,0,0.8)';
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
     ctx.save();
     ctx.fillStyle = '#fff';
     ctx.font = '800 64px NotoSansTC-Bold';
     printAt(ctx, 'Yuanlin', 96, 180, 96, WIDTH);
-    ctx.fillStyle = '#f2e9e4';
+    ctx.fillStyle = '#e0c2bb';
     ctx.font = '800 48px NotoSansTC-Bold';
     printAt(ctx, 'Blog', 340, 180, 96, WIDTH);
     ctx.font = '800 64px NotoSansTC-Bold';
