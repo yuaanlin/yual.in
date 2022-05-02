@@ -28,13 +28,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       </Link>
       <SocialLinks />
-      <div
-        id="g_id_onload"
-        data-auto_select="true"
-        data-skip_prompt_cookie="token"
-        data-client_id="161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com"
-        data-login_uri="/api/login">
-      </div>
     </div>
     <Component {...pageProps} />
   </>;

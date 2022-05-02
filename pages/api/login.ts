@@ -13,6 +13,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.status(500).json({ message: 'JWT_SECRET is not set' });
     return;
   }
+  let redirect = req.query.url;
+  if (typeof redirect !== 'string') redirect = '/';
   const client = new OAuth2Client(CLIENT_ID);
   const ticket = await client.verifyIdToken({
     idToken: req.body.credential,
@@ -38,7 +40,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = jwt.sign(user, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
-    res.redirect('/');
+    res.write(`<script>window.location.pathname = ${redirect}</script>`);
     return;
   } else {
     const user = {
@@ -51,7 +53,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = jwt.sign(user, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
-    res.redirect('/');
+    res.write(`<script>window.location.pathname = ${redirect}</script>`);
     return;
   }
 }
