@@ -9,12 +9,14 @@ import { MDXRemote } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
+import { Heart } from 'react-feather';
 
 export default function (props: { postId: string, post?: Post }) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
   const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
+  const [heartLevel, setHeartLevel] = useState(0);
 
   async function refresh() {
     if (!postId) return;
@@ -35,6 +37,11 @@ export default function (props: { postId: string, post?: Post }) {
       await refresh();
     })();
   }, []);
+
+  async function handleLike() {
+    setHeartLevel(heartLevel + 0.1);
+    await fetch('/api/posts/' + postId + '/like', { method: 'POST' });
+  }
 
   useEffect(() => {
     function handleScroll() {
@@ -112,10 +119,23 @@ export default function (props: { postId: string, post?: Post }) {
         </div>
       </div>
       <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen">
-        <div id="article" className="mt-16 mb-32">
+        <div id="article" className="my-16">
           {!post && <ArticleSkeleton />}
           {mdxSource && <MDXRemote {...mdxSource} />}
         </div>
+        {mdxSource && <div
+          onClick={handleLike}
+          className="group flex items-center
+        cursor-pointer mb-32">
+          <Heart
+            fill="#cc0000"
+            fillOpacity={heartLevel}
+            color="#cc0000"
+            className="group-active:scale-125 transition" />
+          <p className="select-none text-[#dd0000] ml-4">
+            喜歡這篇文章嗎? 給我一個愛心吧!
+          </p>
+        </div>}
       </div>
       <div
         id="g_id_onload"

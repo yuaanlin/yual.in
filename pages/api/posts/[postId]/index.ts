@@ -2,7 +2,7 @@ import {
   getPostInMongo,
   getPostInRedis,
   setPostInRedis
-} from '../../../services/getPost';
+} from '../../../../services/getPost';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
 

@@ -1,7 +1,9 @@
 import getMongoClient from '../../services/getMongoClient';
+import User from '../../models/user';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'bson/bson-ts34';
 
 const CLIENT_ID =
   '161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com';
@@ -30,27 +32,22 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const find = await mongo.db('blog')
     .collection('users').findOne({ googleID: googleId });
   if (find) {
-    const user = {
-      id: find._id,
-      name: find.name,
-      avatarUrl: find.avatarUrl,
-      email: find.email,
-      googleID: find.googleID,
-    };
-    const token = jwt.sign(user, JWT_SECRET);
+    const token = jwt.sign(find, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
     res.setHeader('Content-Type', 'text/html');
     res.end(`<script>window.location.pathname = "${redirect}"</script>`);
     return;
   } else {
-    const user = {
-      name: payload.name,
-      avatarUrl: payload.picture,
-      email: payload.email,
+    const user: User = {
+      _id: new ObjectId(),
+      name: payload.name || '',
+      avatarUrl: payload.picture || '',
+      email: payload.email || '',
       googleID: googleId,
     };
-    await mongo.db('blog').collection('users').insertOne(user);
+    const insert = await mongo.db('blog').collection('users').insertOne(user);
+    user._id = insert.insertedId;
     const token = jwt.sign(user, JWT_SECRET);
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
