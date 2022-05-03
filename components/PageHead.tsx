@@ -5,7 +5,7 @@ interface Props {
   description?: string;
   imageUrl?: string;
   type?: string;
-  keywords: string[];
+  keywords?: string[];
 }
 
 function PageHead(props: Props) {
