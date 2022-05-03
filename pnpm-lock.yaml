@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@geist-ui/core': ^2.3.8
   '@napi-rs/canvas': ^0.1.21
   '@types/jsonwebtoken': ^8.5.8
   '@types/node': 17.0.30
@@ -30,6 +31,7 @@ specifiers:
   typescript: 4.6.4
 
 dependencies:
+  '@geist-ui/core': 2.3.8_react-dom@18.1.0+react@18.1.0
   '@napi-rs/canvas': 0.1.21
   '@types/jsonwebtoken': 8.5.8
   '@types/nprogress': 0.2.0
@@ -75,7 +77,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
-    dev: true
 
   /@eslint/eslintrc/1.2.2:
     resolution: {integrity: sha512-lTVWHs7O2hjBFZunXTZYnYqtB9GakA1lnxIf+gKq2nY5gxkkNi/lQvveW6t8gFdOHTg6nG50Xs95PrLqVpcaLg==}
@@ -93,6 +94,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@geist-ui/core/2.3.8_react-dom@18.1.0+react@18.1.0:
+    resolution: {integrity: sha512-OKwGgTA4+fBM41eQbqDoUj4XBycZbYH7Ynrn6LPO5yKX7zeWPu/R7HN3vB4/oHt34VTDQI5sDNb1SirHvNyB5w==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.17.9
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    dev: false
 
   /@humanwhocodes/config-array/0.9.5:
     resolution: {integrity: sha512-ObyMyWxZiCu/yTisA7uzx81s40xR2fD5Cg/2Kq7G02ajkNubJf6BopgDTmDyc3U7sXpNKM8cYOw7s7Tyr+DnCw==}
@@ -3053,7 +3065,6 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
-    dev: true
 
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@geist-ui/core": "^2.3.8",
     "@napi-rs/canvas": "^0.1.21",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/nprogress": "^0.2.0",
