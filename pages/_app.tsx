@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { SessionProvider, useSession } from './session';
+import { SessionProvider, useSession } from '../src/session';
 import User from '../models/user';
 import { useEffect, useState } from 'react';
 import { Avatar, GeistProvider, useToasts } from '@geist-ui/core';
