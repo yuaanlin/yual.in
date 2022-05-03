@@ -15,11 +15,7 @@
     @apply text-gray-500 my-8
 }
 
-#article img {
-    @apply my-16 shadow-lg rounded-xl lg:hover:scale-105 transition-all duration-200 hover:shadow-2xl
-}
-
-#article pre :not(.snippet) :not(.mdx-component) {
+pre.mdx-rendered {
     @apply text-gray-500 my-8 p-4 rounded-lg bg-gray-100 overflow-x-scroll
 }
 

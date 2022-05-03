@@ -1,6 +1,5 @@
 import ErrorBoundary from '../components/ErrorBoundary';
 import User from '../models/user';
-import mdxComponents from '../components/mdx';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -77,7 +76,7 @@ export default function () {
           {error && <Note type="error">{error}</Note>}
           <div id="article" className="mt-16 mb-32">
             {mdxSource && <ErrorBoundary>
-              <MDXRemote{...mdxSource} components={mdxComponents} />
+              <MDXRemote{...mdxSource} />
             </ErrorBoundary>}
           </div>
         </div>

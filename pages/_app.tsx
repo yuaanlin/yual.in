@@ -6,6 +6,8 @@ import { Avatar, GeistProvider, useToasts } from '@geist-ui/core';
 import dynamic from 'next/dynamic';
 import type { AppProps } from 'next/app';
 import 'nprogress/nprogress.css';
+import { MDXProvider } from '@mdx-js/react';
+import mdxComponents from '../components/mdx';
 
 const TopProgressBar = dynamic(
   () => {
@@ -32,9 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return <SessionProvider value={{ session }}>
     <GeistProvider>
-      <SessionRestoreNotification />
-      <TopProgressBar />
-      <Component {...pageProps} />
+      <MDXProvider components={mdxComponents}>
+        <SessionRestoreNotification />
+        <TopProgressBar />
+        <Component {...pageProps} />
+      </MDXProvider>
     </GeistProvider>
   </SessionProvider>;
 }
