@@ -44,3 +44,11 @@
 #nprogress .spinner {
     display: none !important;
 }
+
+::-moz-selection {
+    background: #ffdad7;
+}
+
+::selection {
+    background: #ffdad7;
+}
