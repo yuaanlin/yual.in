@@ -14,7 +14,7 @@ export default function () {
       const res = await fetch('/api/posts');
       let data = await res.json();
       data = data.map(parsePost);
-      setData(data);
+      setData(data.sort((a: Post, b: Post) => b.createdAt.getTime() - a.createdAt.getTime()));
     } catch (err) {
       console.error(err);
     }
