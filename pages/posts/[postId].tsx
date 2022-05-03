@@ -3,6 +3,7 @@ import isUserAgentBrowser from '../../utils/isUserAgentBrowser';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
+import mdxComponents from '../../components/mdx';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -114,7 +115,7 @@ export default function (props: { postId: string, post?: Post }) {
       <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen">
         <div id="article" className="mt-16 mb-32">
           {!post && <ArticleSkeleton />}
-          {mdxSource && <MDXRemote {...mdxSource} components={{}} />}
+          {mdxSource && <MDXRemote {...mdxSource} components={mdxComponents} />}
         </div>
       </div>
       <div

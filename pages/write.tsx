@@ -1,32 +1,12 @@
 import ErrorBoundary from '../components/ErrorBoundary';
 import User from '../models/user';
+import mdxComponents from '../components/mdx';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
-import { Button, ButtonGroup, Description, Note } from '@geist-ui/core';
+import { Note } from '@geist-ui/core';
 import { NextPageContext } from 'next';
 import jwt from 'jsonwebtoken';
-
-interface Props {
-  questionName: string;
-  question: string;
-  options: string[];
-}
-
-function SelectQuestion(props: Props) {
-  return <div className="w-full bg-zinc-50 rounded-lg p-2">
-    <Description
-      style={{ margin: '16px 8px' }}
-      title={props.questionName}
-      content={props.question} />
-    <ButtonGroup vertical width="100%">
-      {props.options.map((opt, i) =>
-        <Button key={i} style={{ textAlign: 'left' }}>
-          {opt}
-        </Button>)}
-    </ButtonGroup>
-  </div>;
-}
 
 export default function () {
   const [input, setInput] = useState<string>('');
@@ -97,7 +77,7 @@ export default function () {
           {error && <Note type="error">{error}</Note>}
           <div id="article" className="mt-16 mb-32">
             {mdxSource && <ErrorBoundary>
-              <MDXRemote{...mdxSource} components={{ SelectQuestion }} />
+              <MDXRemote{...mdxSource} components={mdxComponents} />
             </ErrorBoundary>}
           </div>
         </div>
