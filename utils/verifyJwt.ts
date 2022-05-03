@@ -1,4 +1,4 @@
-import User from '../models/user';
+import User, { parseUser } from '../models/user';
 import jwt from 'jsonwebtoken';
 
 function verifyJwt(token: string) {
@@ -9,10 +9,10 @@ function verifyJwt(token: string) {
       return;
     }
     jwt.verify(token, JWT_SECRET, async (err, user) => {
-      if (err) {
+      if (err || !user) {
         reject(err);
       }
-      resolve(user as User);
+      resolve(parseUser(user as unknown as User));
     });
   });
 }
