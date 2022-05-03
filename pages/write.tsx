@@ -109,23 +109,21 @@ export default function () {
 export async function getServerSideProps(context: NextPageContext) {
   const JWT_SECRET = process.env.JWT_SECRET;
   if (!JWT_SECRET) {
-    context.res?.setHeader('Content-Type', 'text/html')
-      .end('<script>window.location.pathname = "/"</script>');
-    return;
+    return { redirect: { permanent: false, destination: '/' }, props: {} };
   }
+
   const token = context.req?.headers.cookie?.split(';')
     .find(c => c.startsWith('token='));
   if (!token) {
-    context.res?.setHeader('Content-Type', 'text/html')
-      .end('<script>window.location.pathname = "/"</script>');
-    return;
+    return { redirect: { permanent: false, destination: '/' }, props: {} };
   }
+
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err || !decoded ||
       (decoded as User).email !== 'im.yuanlinlin@gmail.com') {
-      context.res?.setHeader('Content-Type', 'text/html')
-        .end('<script>window.location.pathname = "/"</script>');
+      return { redirect: { permanent: false, destination: '/' }, props: {} };
     }
   });
+
   return { props: {} };
 }
