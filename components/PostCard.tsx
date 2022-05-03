@@ -11,8 +11,8 @@ interface Props {
 function PostCard(props: Props) {
   const { post, imageClassName, titleClassName } = props;
 
-  if(!post) {
-    return <div className="w-full p-8">
+  if (!post) {
+    return <div className="w-full">
       <div
         className={cx(imageClassName, 'w-full object-cover',
           'rounded-lg bg-zinc-200 animate-pulse')}
@@ -27,7 +27,7 @@ function PostCard(props: Props) {
   }
 
   return <Link href={'/posts/' + post._id} scroll>
-    <div className="w-full p-8">
+    <div className="w-full">
       <img
         src={post.coverImageUrl}
         className={cx(imageClassName, 'w-full object-cover transition',

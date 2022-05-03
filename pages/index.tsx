@@ -1,7 +1,10 @@
 import Post, { parsePost } from '../models/post';
 import PostCard from '../components/PostCard';
 import PageHead from '../components/PageHead';
+import SocialLinks from '../components/SocialLinks';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import cx from 'classnames';
 
 export default function () {
   const [data, setData] = useState<Post[]>();
@@ -27,35 +30,40 @@ export default function () {
     <div className="min-h-screen">
       <PageHead />
       <div
-        className="container 2xl:px-32 px-0 lg:pl-24 mx-auto flex
-       flex-row py-8 lg:pb-24 lg:pt-24 lg:pt-0 flex-wrap">
-        <div className="w-full flex flex-row flex-wrap">
-          <div className="w-full lg:w-2/3">
-            <PostCard
-              post={data ? data[0] : undefined}
-              imageClassName="h-96" />
-          </div>
-          <div className="w-full lg:w-1/3 flex-wrap">
-            <PostCard
-              post={data ? data[1] : undefined}
-              imageClassName="h-64"
-              titleClassName="text-xl"
-            />
-          </div>
+        className="container 2xl:px-32 px-6 lg:px-12 mx-auto flex
+       flex-row py-8 lg:pb-24 flex-wrap">
+        <div className="mt-4 lg:mt-12">
+          <Link href="/" scroll>
+            <div
+              className="font-extrabold text-xl lg:text-3xl mb-4 lg:mb-0
+        cursor-pointer flex flex-row lg:flex-col items-baseline">
+              <p className="mr-2">Yuanlin Lin</p>
+              <p className="text-lg text-[#c9ada7]">Blog</p>
+            </div>
+          </Link>
+          <SocialLinks />
         </div>
-        <div className="w-full flex flex-row flex-wrap">
-          {(data ? data.slice(2, 5) : [undefined, undefined, undefined])
-            .map((post, i) => (
-              <div
-                className="w-full lg:w-1/3"
-                key={post?._id.toHexString() || i}
-              >
-                <PostCard
-                  post={post}
-                  imageClassName="h-64"
-                  titleClassName="text-xl"
-                />
-              </div>))}
+        <div
+          className="w-full my-16 grid grid-cols-1 md:grid-cols-2
+          xl:grid-cols-3 gap-12">
+          {!data && [0, 1, 2, 3, 4].map(i =>
+            <div
+              className={cx(i == 0 && 'md:col-span-2')}
+              key={i}>
+              <PostCard
+                post={undefined}
+                imageClassName={cx(i === 0 && 'h-64 lg:h-96',
+                  i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')} />
+            </div>)}
+          {data && data.map((post, i) =>
+            <div
+              className={cx(i == 0 && 'md:col-span-2')}
+              key={post._id.toHexString()}>
+              <PostCard
+                post={post}
+                imageClassName={cx(i === 0 && 'h-64 lg:h-96',
+                  i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')} />
+            </div>)}
         </div>
       </div>
       <div

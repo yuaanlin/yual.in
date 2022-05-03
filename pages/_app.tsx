@@ -1,9 +1,7 @@
 import '../styles/globals.css';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import type { AppProps } from 'next/app';
 import 'nprogress/nprogress.css';
-import SocialLinks from '../components/SocialLinks';
 
 const TopProgressBar = dynamic(
   () => {
@@ -15,20 +13,6 @@ const TopProgressBar = dynamic(
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <TopProgressBar />
-    <div
-      className="w-full lg:w-64 fixed top-0 px-4
-     py-2 lg:p-6 bg-white lg:bg-opacity-0 flex flex-row lg:flex-col
-      items-center lg:items-start justify-between lg:justify-start">
-      <Link href="/" scroll>
-        <div
-          className="font-extrabold text-xl lg:text-3xl
-        mb-0 cursor-pointer flex flex-row lg:flex-col items-baseline">
-          <p className="mr-2">Yuanlin Lin</p>
-          <p className="text-lg text-[#c9ada7]">Blog</p>
-        </div>
-      </Link>
-      <SocialLinks />
-    </div>
     <Component {...pageProps} />
   </>;
 }
