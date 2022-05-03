@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
 export default async function (req: NextApiRequest, res: NextApiResponse) {
+  const JWT_SECRET = process.env.JWT_SECRET;
   if (!JWT_SECRET) {
     res.status(500).json({ message: 'JWT_SECRET is not defined' });
     return;
