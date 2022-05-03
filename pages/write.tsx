@@ -112,7 +112,7 @@ export async function getServerSideProps(context: NextPageContext) {
     return { redirect: { permanent: false, destination: '/' }, props: {} };
   }
 
-  const token = context.req?.headers.cookie?.split(';')
+  const token = context.req?.headers.cookie?.split(';').map(c => c.trim())
     .find(c => c.startsWith('token='));
   if (!token) {
     return { redirect: { permanent: false, destination: '/' }, props: {} };
