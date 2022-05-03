@@ -1,9 +1,7 @@
 import getMongoClient from '../../services/getMongoClient';
-import User from '../../models/user';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
-import { ObjectId } from 'bson/bson-ts34';
 
 const CLIENT_ID =
   '161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com';
@@ -39,8 +37,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.end(`<script>window.location.pathname = "${redirect}"</script>`);
     return;
   } else {
-    const user: User = {
-      _id: new ObjectId(),
+    const user: any = {
       name: payload.name || '',
       avatarUrl: payload.picture || '',
       email: payload.email || '',
