@@ -9,15 +9,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ error: 'postId is required' });
     return;
   }
-  const token = req.cookies.token;
-  const user = await verifyJwt(token);
-  if (!user) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-  }
   const postObjectId = new ObjectId(postId);
   switch (req.method) {
     case 'POST':
+      const token = req.cookies.token;
+      const user = await verifyJwt(token);
+      if (!user) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+      }
       try {
         const mongo = await getMongoClient();
         const count = await mongo.db('blog').collection('likes')
@@ -45,7 +45,17 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       break;
     case 'GET':
       try {
+        let userLike = 0;
+        const token = req.cookies.token;
+        const user = await verifyJwt(token);
         const mongo = await getMongoClient();
+        if (user) {
+          userLike = await mongo.db('blog').collection('likes')
+            .countDocuments({
+              userId: user._id,
+              postId: postObjectId,
+            });
+        }
         const find = await mongo.db('blog').collection('likes')
           .find({ postId: postObjectId });
         const likes = await find.toArray();
@@ -55,6 +65,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           .toArray();
         const userAvatars = users.map(user => user.avatar);
         return res.status(200).json({
+          userLike,
           likeCount: likes.length,
           userAvatars,
         });
