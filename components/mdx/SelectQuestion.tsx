@@ -7,7 +7,7 @@ interface Props {
 }
 
 function SelectQuestion(props: Props) {
-  return <div className="w-full bg-zinc-50 rounded-lg p-2">
+  return <div className="w-full bg-zinc-50 rounded-lg p-2 mdx-component my-12">
     <Description
       style={{ margin: '16px 8px' }}
       title={props.questionName}

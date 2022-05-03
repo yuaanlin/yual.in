@@ -19,8 +19,12 @@
     @apply my-16 shadow-lg rounded-xl lg:hover:scale-105 transition-all duration-200 hover:shadow-2xl
 }
 
-#article pre {
+#article pre :not(.snippet) :not(.mdx-component) {
     @apply text-gray-500 my-8 p-4 rounded-lg bg-gray-100 overflow-x-scroll
+}
+
+.mdx-component .btn-group {
+    margin: 0 !important;
 }
 
 #article code {
