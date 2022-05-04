@@ -43,7 +43,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         break;
       case 'GET':
         const code = req.query.code;
-        redirectUrl = req.query.state;
+        const queryState = req.query.state;
+        if (typeof queryState === 'string') redirect = queryState;
         const googleAppSecret = process.env.GOOGLE_CLIENT_SECRET;
         const host = req.headers.host;
         const verify = await axios.post(
