@@ -10,22 +10,24 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     return;
   }
   const postObjectId = new ObjectId(postId);
+  const mongo = await getMongoClient();
   switch (req.method) {
     case 'POST':
       const token = req.cookies.token;
       const user = await verifyJwt(token);
       if (!user) {
+        await mongo.close();
         res.status(401).json({ error: 'Unauthorized' });
         return;
       }
       try {
-        const mongo = await getMongoClient();
         const count = await mongo.db('blog').collection('likes')
           .countDocuments({
             userId: user._id,
             postId: postObjectId,
           });
-        if (count > 10) {
+        if (count >= 10) {
+          await mongo.close();
           res.status(200).json({ message: 'Already liked 10 times' });
           return;
         }
@@ -34,12 +36,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           postId: postObjectId,
           likedAt: new Date(),
         });
+        await mongo.close();
         res.status(201).json({
           userId: user._id,
           postId: postObjectId,
           count: count + 1
         });
       } catch (err) {
+        await mongo.close();
         res.status(404).json({ error: 'Post not found' });
       }
       break;
@@ -48,7 +52,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         let userLike = 0;
         const token = req.cookies.token;
         const user = await verifyJwt(token);
-        const mongo = await getMongoClient();
         if (user) {
           userLike = await mongo.db('blog').collection('likes')
             .countDocuments({
@@ -63,14 +66,17 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         const users = await mongo.db('blog').collection('users')
           .find({ _id: { $in: likeUserIds } })
           .toArray();
-        const userAvatars = users.map(user => user.avatar);
-        return res.status(200).json({
+        const userAvatars = users.map(user => user.avatarUrl);
+        await mongo.close();
+        res.status(200).json({
           userLike,
           likeCount: likes.length,
           userAvatars,
         });
       } catch (err) {
         res.status(404).json({ error: 'Post not found' });
+      } finally {
+        await mongo.close();
       }
   }
 }

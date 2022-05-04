@@ -32,7 +32,7 @@ window.fetch = async function (...args) {
 
   // Like don't need progress bar
   if (args && args[0] && typeof args[0] === 'string'
-    && args[0].match(/^\/api\/posts\/(.*)\/like$/)) {
+    && args[0].match(/^\/api\/posts\/(.*)\/likes$/)) {
     try {
       return await originalFetch(...args);
     } catch (error) {

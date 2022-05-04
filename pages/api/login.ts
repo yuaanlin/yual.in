@@ -31,6 +31,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     .collection('users').findOne({ googleID: googleId });
   if (find) {
     const token = jwt.sign(find, JWT_SECRET);
+    await mongo.close();
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
     res.setHeader('Content-Type', 'text/html');
@@ -46,6 +47,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const insert = await mongo.db('blog').collection('users').insertOne(user);
     user._id = insert.insertedId;
     const token = jwt.sign(user, JWT_SECRET);
+    await mongo.close();
     res.setHeader('Set-Cookie',
       `token=${token}; Path=/; Max-Age=${60 * 60 * 24 * 365}`);
     res.setHeader('Content-Type', 'text/html');

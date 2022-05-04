@@ -12,14 +12,19 @@ import { NextPageContext } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
 import { Heart } from 'react-feather';
+import { Avatar } from '@geist-ui/core';
 
 export default function (props: { postId: string, post?: Post }) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
   const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
-  const [heartLevel, setHeartLevel] = useState(0);
   const session = useSession();
+  const [likes, setLikes] = useState<{
+    userLike: number,
+    likeCount: number,
+    userAvatars: string[]
+  }>();
 
   async function refresh() {
     if (!postId) return;
@@ -30,6 +35,9 @@ export default function (props: { postId: string, post?: Post }) {
       setPost(data);
       const mdxSource = await serialize(data.content);
       setMdxSource(mdxSource);
+      const likes = await fetch('/api/posts/' + postId + '/likes');
+      const likesData = await likes.json();
+      setLikes(likesData);
     } catch (err) {
       console.error(err);
     }
@@ -42,8 +50,13 @@ export default function (props: { postId: string, post?: Post }) {
   }, []);
 
   async function handleLike() {
-    setHeartLevel(heartLevel + 0.1);
-    await fetch('/api/posts/' + postId + '/like', { method: 'POST' });
+    if (!likes || likes.userLike >= 10) return;
+    setLikes(o => !o ? undefined : {
+      ...o,
+      likeCount: o.likeCount + 1,
+      userLike: o.userLike + 1
+    });
+    await fetch('/api/posts/' + postId + '/likes', { method: 'POST' });
   }
 
   useEffect(() => {
@@ -149,18 +162,27 @@ export default function (props: { postId: string, post?: Post }) {
             data-logo_alignment="left" />
         </div>}
 
-        {session.session && mdxSource && <div
-          onClick={handleLike}
-          className="group flex items-center
-        cursor-pointer mb-32">
-          <Heart
-            fill="#cc0000"
-            fillOpacity={heartLevel}
-            color="#cc0000"
-            className="group-active:scale-125 transition" />
-          <p className="select-none text-[#dd0000] ml-4">
-            喜歡這篇文章嗎? 給我一個愛心吧!
-          </p>
+        {likes && session.session && mdxSource && <div className="mb-32">
+          <div
+            onClick={handleLike}
+            className="group flex items-center
+        cursor-pointer">
+            <p className="text-[#dd0000] mr-2">{likes.likeCount}</p>
+            <Heart
+              fill="#cc0000"
+              fillOpacity={likes.userLike / 10}
+              color="#cc0000"
+              className="group-active:scale-125 transition" />
+            <p className="select-none text-[#dd0000] ml-4">
+              喜歡這篇文章嗎? 給我一個愛心吧!
+            </p>
+          </div>
+          <div className="mt-6">
+            <Avatar.Group>
+              {likes.userAvatars.map((avatar, index) =>
+                <Avatar key={index} src={avatar} stacked />)}
+            </Avatar.Group>
+          </div>
         </div>}
       </div>
       <div

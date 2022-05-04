@@ -27,6 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   async function restoreSession() {
+    if (!window.document.cookie.split(';')
+      .map(c => c.trim()).find(c => c.startsWith('token=')))
+      return;
     try {
       const res = await fetch('/api/me');
       const user = await res.json();
