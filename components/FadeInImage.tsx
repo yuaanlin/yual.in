@@ -9,12 +9,15 @@ interface Props {
 
 function fadeInImage(props: Props) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
     setIsLoaded(false);
   }, [props.src]);
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  useEffect(() => {
+    setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+  }, []);
 
   if (isSafari) {
     return (
