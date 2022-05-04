@@ -16,7 +16,8 @@
 }
 
 pre.mdx-rendered {
-    @apply text-gray-500 my-8 p-4 rounded-lg bg-gray-100 overflow-x-scroll
+    background-color: rgb(245, 242, 240);
+    @apply text-gray-500 my-8 p-4 rounded-lg overflow-x-scroll
 }
 
 .mdx-component .btn-group {
@@ -24,7 +25,8 @@ pre.mdx-rendered {
 }
 
 #article code {
-    @apply font-mono text-sm bg-gray-100 rounded-md py-1 px-2 mb-4 mt-4
+    background-color: rgb(245, 242, 240);
+    @apply font-mono text-sm rounded-md py-1 px-2 mb-4 mt-4
 }
 
 #article a {
