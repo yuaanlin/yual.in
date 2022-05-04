@@ -27,9 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   async function restoreSession() {
-    const res = await fetch('/api/me');
-    const user = await res.json();
-    setSession(user);
+    try {
+      const res = await fetch('/api/me');
+      const user = await res.json();
+      setSession(user);
+    } catch (err) {
+
+    }
   }
 
   return <SessionProvider value={{ session }}>
