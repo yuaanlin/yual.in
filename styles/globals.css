@@ -30,7 +30,7 @@ pre.mdx-rendered {
 }
 
 #article a {
-    @apply mx-1 text-[#b2938d] hover:text-[#c9ada7] transition;
+    @apply mx-1 text-[#b2938d] hover:text-[#c9ada7] transition break-all;
     background-image: linear-gradient(transparent 60%, #f2e9e4 55%);
 }
 
