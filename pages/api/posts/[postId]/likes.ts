@@ -74,6 +74,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           userAvatars,
         });
       } catch (err) {
+        console.error(err);
         res.status(404).json({ error: 'Post not found' });
       } finally {
         await mongo.close();

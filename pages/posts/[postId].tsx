@@ -50,6 +50,18 @@ export default function (props: { postId: string, post?: Post }) {
   }, []);
 
   async function handleLike() {
+    if (!session.session) {
+      window.location.href =
+        'https://accounts.google.com/o/oauth2/v2/auth' +
+        '?response_type=code' +
+        '&client_id=' +
+        '161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com' +
+        '&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile' +
+        '&redirect_uri=https://' +
+        window.location.host +
+        '/api/login';
+      return;
+    }
     if (!likes || likes.userLike >= 10) return;
     setLikes(o => !o ? undefined : {
       ...o,
@@ -162,7 +174,7 @@ export default function (props: { postId: string, post?: Post }) {
             data-logo_alignment="left" />
         </div>}
 
-        {likes && session.session && mdxSource && <div className="mb-32">
+        {likes && mdxSource && <div className="mb-32">
           <div
             onClick={handleLike}
             className="group flex items-center
@@ -179,7 +191,7 @@ export default function (props: { postId: string, post?: Post }) {
           </div>
           <div className="mt-6">
             <Avatar.Group>
-              {likes.userAvatars.map((avatar, index) =>
+              {likes.userAvatars?.map((avatar, index) =>
                 <Avatar key={index} src={avatar} stacked />)}
             </Avatar.Group>
           </div>
