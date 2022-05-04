@@ -24,7 +24,7 @@ pre.mdx-rendered {
     margin: 0 !important;
 }
 
-#article code {
+#article code:not(pre *) {
     background-color: rgb(245, 242, 240);
     @apply font-mono text-sm rounded-md py-1 px-2 mb-4 mt-4
 }
