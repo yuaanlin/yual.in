@@ -1,4 +1,5 @@
 import SelectQuestion from './SelectQuestion';
+import FadeInImage from '../FadeInImage';
 import { Note as NoteRaw, Snippet as SnippetRaw, Tree } from '@geist-ui/core';
 
 function Note(props: any) {
@@ -21,8 +22,9 @@ const mdxComponents = {
     {...props}>{props.children}</ol>,
   pre: (props: any) => <pre className="mdx-rendered" {...props} />,
   img: (props: any) => <div className="mdx-rendered my-16">
-    <img
-      className="shadow-lg rounded-xl lg:hover:scale-105 transition-all duration-200 hover:shadow-2xl"
+    <FadeInImage
+      className="shadow-lg rounded-xl lg:hover:scale-105
+       transition-all duration-200 hover:shadow-2xl"
       {...props} />
     <p className="text-center text-xs opacity-50">{props.alt}</p>
   </div>

@@ -3,6 +3,7 @@ import isUserAgentBrowser from '../../utils/isUserAgentBrowser';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
+import FadeInImage from '../../components/FadeInImage';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -45,7 +46,7 @@ export default function (props: { postId: string, post?: Post }) {
 
   useEffect(() => {
     function handleScroll() {
-      if (document.documentElement.scrollTop > 32 * 16) {
+      if (document.documentElement.scrollTop > 36 * 16) {
         setShouldHideWhiteLogo(true);
       } else {
         setShouldHideWhiteLogo(false);
@@ -68,22 +69,28 @@ export default function (props: { postId: string, post?: Post }) {
       />
       <div
         className={cx('w-full lg:w-64 fixed top-0 px-4',
-          'py-2 lg:p-6 lg:bg-white lg:bg-opacity-0 z-50 transition',
-          shouldHideWhiteLogo && 'opacity-0')}>
+          'flex flex-row justify-between lg:flex-col',
+          'py-2 lg:p-6 bg-white lg:bg-opacity-0 z-50 transition',
+          !shouldHideWhiteLogo && 'bg-opacity-0')}>
         <Link href="/" scroll>
           <div
             className="font-extrabold text-xl lg:text-3xl
         mb-0 cursor-pointer flex flex-row lg:flex-col items-baseline">
-            <p className="mr-2 text-white z-50">Yuanlin Lin</p>
+            <p
+              className={cx(
+                'mr-2 z-50 transition duration-1000', shouldHideWhiteLogo
+                  ? 'text-black' : 'text-white')}>
+              Yuanlin Lin
+            </p>
             <p className="text-lg text-[#c9ada7]">Blog</p>
           </div>
         </Link>
-        <SocialLinks color="white" />
+        <SocialLinks color={shouldHideWhiteLogo ? 'black' : 'white'} />
       </div>
       <div
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
          relative flex justify-center">
-        <img
+        <FadeInImage
           src={post?.coverImageUrl}
           className="absolute top-0 w-full h-full object-cover bg-zinc-500"
           alt="" />

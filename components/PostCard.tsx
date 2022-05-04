@@ -1,3 +1,4 @@
+import FadeInImage from './FadeInImage';
 import Post from '../models/post';
 import Link from 'next/link';
 import cx from 'classnames';
@@ -28,7 +29,7 @@ function PostCard(props: Props) {
 
   return <Link href={'/posts/' + post._id} scroll>
     <div className="w-full">
-      <img
+      <FadeInImage
         src={post.coverImageUrl}
         className={cx(imageClassName, 'w-full object-cover transition',
           'rounded-lg cursor-pointer shadow-lg lg:hover:scale-105')}
