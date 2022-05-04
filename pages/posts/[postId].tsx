@@ -158,22 +158,6 @@ export default function (props: { postId: string, post?: Post }) {
           {mdxSource && <MDXRemote {...mdxSource} />}
         </div>
 
-        {!session.session &&
-        <div className="bg-zinc-50 p-4 rounded-lg mb-32">
-          <p className="text-sm font-bold">請登入以按愛心及留言</p>
-          <p className="mt-2 mb-4 text-zinc-600">
-            Yuanlin Blog 需要先使用 Google 登入，才能給文章按愛心及留言！
-          </p>
-          <div
-            className="g_id_signin"
-            data-type="standard"
-            data-size="large"
-            data-theme="outline"
-            data-text="sign_in_with"
-            data-shape="rectangular"
-            data-logo_alignment="left" />
-        </div>}
-
         {likes && mdxSource && <div className="mb-32">
           <div
             onClick={handleLike}
