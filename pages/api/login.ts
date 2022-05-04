@@ -55,7 +55,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           googleAppSecret +
           '&redirect_uri=https://' +
           host +
-          '/login' +
+          '/api/login' +
           '&grant_type=authorization_code' +
           '&code=' +
           code
