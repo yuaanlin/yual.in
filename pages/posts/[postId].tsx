@@ -59,7 +59,7 @@ export default function (props: { postId: string, post?: Post }) {
         '&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile' +
         '&redirect_uri=https://' +
         window.location.host +
-        '/api/login';
+        '/api/login&state=/posts/' + postId;
       return;
     }
     if (!likes || likes.userLike >= 10) return;
