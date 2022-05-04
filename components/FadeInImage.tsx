@@ -14,6 +14,18 @@ function fadeInImage(props: Props) {
     setIsLoaded(false);
   }, [props.src]);
 
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  if (isSafari) {
+    return (
+      <img
+        className={props.className}
+        src={props.src}
+        alt={props.alt}
+      />
+    );
+  }
+
   return <img
     onLoad={() => setIsLoaded(true)}
     className={cx(props.className,
