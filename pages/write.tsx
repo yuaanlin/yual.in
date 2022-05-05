@@ -33,7 +33,7 @@ export default function () {
       <div className="col-span-2">
         <textarea
           spellCheck={false}
-          className="w-40vw h-full p-4 outline-none
+          className="w-[40vw] h-full p-4 outline-none
            fixed top-0 z-20 bg-zinc-100"
           value={input}
           onChange={e => setInput(e.target.value)} />
