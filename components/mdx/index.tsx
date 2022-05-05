@@ -32,10 +32,17 @@ const mdxComponents = {
   pre: (props: any) => <pre className="mdx-rendered" {...props} />,
   code,
   img: (props: any) => <div className="mdx-rendered my-16">
-    <FadeInImage
+    {props.src.startsWith('https://www.youtube.com/embed/') ? <iframe
+      src={props.src}
+      className="w-full h-96 my-24 shadow-lg rounded-xl lg:hover:scale-105
+        transition-all duration-200 hover:shadow-2xl"
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
+      allowFullScreen /> :
+      <FadeInImage
       className="shadow-lg rounded-xl lg:hover:scale-105
        transition-all duration-200 hover:shadow-2xl"
-      {...props} />
+      {...props} />}
     <p className="text-center text-xs opacity-50">{props.alt}</p>
   </div>
 };
