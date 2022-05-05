@@ -16,8 +16,15 @@
 }
 
 pre.mdx-rendered {
-    background-color: rgb(245, 242, 240);
-    @apply text-gray-500 my-8 p-4 rounded-lg overflow-x-scroll
+    @apply text-xs
+}
+
+pre.mdx-rendered > div {
+    background-color: #fff !important;
+    border: 1px solid #eaeaea !important;
+    border-radius: 6px !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    font-size: var(--snippet-font-size) !important;
 }
 
 .mdx-component .btn-group {
