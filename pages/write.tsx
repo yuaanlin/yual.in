@@ -15,6 +15,7 @@ export default function () {
   useEffect(() => {
     (async () => {
       try {
+        if (input !== '') window.localStorage.setItem('note', input);
         setMdxSource(await serialize(input));
         setError(undefined);
       } catch (err: any) {
@@ -23,13 +24,17 @@ export default function () {
     })();
   }, [input]);
 
+  useEffect(() => {
+    setInput(window.localStorage.getItem('note') || '');
+  }, []);
+
   return (
     <div className="w-screen grid grid-cols-5">
       <div className="col-span-2">
         <textarea
           spellCheck={false}
-          style={{ width: '40vw' }}
-          className="h-full p-4 outline-none fixed top-0 z-20 bg-zinc-100"
+          className="w-full h-full p-4 outline-none
+           fixed top-0 z-20 bg-zinc-100"
           value={input}
           onChange={e => setInput(e.target.value)} />
       </div>
