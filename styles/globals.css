@@ -27,6 +27,17 @@ pre.mdx-rendered > div {
     font-size: var(--snippet-font-size) !important;
 }
 
+pre.mdx-rendered > code {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    padding: 12px !important;
+    background-color: #fff !important;
+    border: 1px solid #eaeaea !important;
+    border-radius: 6px !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
 .mdx-component .btn-group {
     margin: 0 !important;
 }
