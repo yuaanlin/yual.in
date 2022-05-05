@@ -34,7 +34,7 @@ const mdxComponents = {
   img: (props: any) => <div className="mdx-rendered my-16">
     {props.src.startsWith('https://www.youtube.com/embed/') ? <iframe
       src={props.src}
-      className="w-full h-96 my-24 shadow-lg rounded-xl lg:hover:scale-105
+      className="w-full h-96 shadow-lg rounded-xl lg:hover:scale-105
         transition-all duration-200 hover:shadow-2xl"
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
