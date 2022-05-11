@@ -10,7 +10,11 @@ function Note(props: any) {
 }
 
 function Snippet(props: any) {
-  return <SnippetRaw {...props} style={{ margin: '24px 0' }} />;
+  return <SnippetRaw
+    {...props}
+    className="mdx-snippet"
+    style={{ margin: '24px 0' }}
+  />;
 }
 
 function code({ className, ...props }: any) {
