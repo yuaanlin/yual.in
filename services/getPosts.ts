@@ -16,7 +16,8 @@ export async function getPostsInMongo(): Promise<Post[]> {
     return (await find.toArray()).map(post => ({
       ...post,
       content: post.content.trim().substring(0, 100) + ' ...'
-    }));
+    })).sort((a: Post, b: Post) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   } finally {
     await client.close();
   }
@@ -27,7 +28,8 @@ export async function getPostsInRedis(): Promise<Post[] | undefined> {
     throw new Error('Server cannot connect to database.');
   const redis = new Redis({ url: redisUrl, token: redisToken });
   const cache = await redis.get<Post[]>('posts');
-  if (cache) return cache;
+  if (cache) return cache.sort((a: Post, b: Post) =>
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
 export async function setPostsInRedis(posts: Post[]) {

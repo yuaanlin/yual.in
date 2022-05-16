@@ -2,30 +2,16 @@ import Post, { parsePost } from '../models/post';
 import PostCard from '../components/PostCard';
 import PageHead from '../components/PageHead';
 import SocialLinks from '../components/SocialLinks';
-import { useEffect, useState } from 'react';
+import {
+  getPostsInMongo,
+  getPostsInRedis,
+  setPostsInRedis
+} from '../services/getPosts';
 import Link from 'next/link';
 import cx from 'classnames';
 
-export default function () {
-  const [data, setData] = useState<Post[]>();
-
-  async function refresh() {
-    try {
-      const res = await fetch('/api/posts');
-      let data = await res.json();
-      data = data.map(parsePost);
-      setData(data.sort((a: Post, b: Post) => b.createdAt.getTime() - a.createdAt.getTime()));
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  useEffect(() => {
-    (async () => {
-      await refresh();
-    })();
-  }, []);
-
+export default function (props: { posts: Post[] }) {
+  const data = props.posts.map(parsePost);
   return (
     <div className="min-h-screen">
       <PageHead />
@@ -75,3 +61,11 @@ export default function () {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const postsInRedis = await getPostsInRedis();
+  if (postsInRedis) return { props: { posts: postsInRedis } };
+  const postsInMongo = await getPostsInMongo();
+  await setPostsInRedis(postsInMongo);
+  return { props: { posts: postsInMongo } };
+}

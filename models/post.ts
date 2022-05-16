@@ -9,8 +9,7 @@ interface Post {
   content: string
 }
 
-export function parsePost(data?: Post) {
-  if (!data) return undefined;
+export function parsePost(data: Post) {
   return {
     ...data,
     _id: new ObjectID(data._id),

@@ -1,5 +1,4 @@
 import Post, { parsePost } from '../../models/post';
-import isUserAgentBrowser from '../../utils/isUserAgentBrowser';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
@@ -14,7 +13,7 @@ import cx from 'classnames';
 import { Heart } from 'react-feather';
 import { Avatar } from '@geist-ui/core';
 
-export default function (props: { postId: string, post?: Post }) {
+export default function (props: { postId: string, post: Post }) {
   const { postId } = props;
   const [mdxSource, setMdxSource] = useState<any>(null);
   const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
@@ -225,9 +224,6 @@ function ArticleSkeleton() {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  const ua = context.req?.headers['user-agent'];
-  if (isUserAgentBrowser(ua))
-    return { props: { postId: context.query.postId } };
   const postId = context.query.postId;
   if (typeof postId !== 'string')
     return { props: { error: 'Post not found.' } };
