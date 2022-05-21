@@ -1,4 +1,4 @@
-import Post, { parsePost } from '../../models/post';
+import Post from '../../models/post';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
@@ -6,17 +6,21 @@ import FadeInImage from '../../components/FadeInImage';
 import { useSession } from '../../src/session';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote } from 'next-mdx-remote';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
 import { Heart } from 'react-feather';
 import { Avatar } from '@geist-ui/core';
 
-export default function (props: { postId: string, post: Post }) {
-  const { postId } = props;
-  const [mdxSource, setMdxSource] = useState<any>(null);
-  const [post, setPost] = useState<Post | undefined>(parsePost(props.post));
+interface PageProps {
+  post: Post
+  mdxSource: MDXRemoteSerializeResult
+}
+
+export default function (props: PageProps) {
+  const { post, mdxSource } = props;
+  const postId = post._id;
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
   const session = useSession();
   const [likes, setLikes] = useState<{
@@ -24,29 +28,6 @@ export default function (props: { postId: string, post: Post }) {
     likeCount: number,
     userAvatars: string[]
   }>();
-
-  async function refresh() {
-    if (!postId) return;
-    try {
-      const res = await fetch('/api/posts/' + postId);
-      const data = await res.json();
-      data.createdAt = new Date(data.createdAt);
-      setPost(data);
-      const mdxSource = await serialize(data.content);
-      setMdxSource(mdxSource);
-      const likes = await fetch('/api/posts/' + postId + '/likes');
-      const likesData = await likes.json();
-      setLikes(likesData);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  useEffect(() => {
-    (async () => {
-      await refresh();
-    })();
-  }, []);
 
   async function handleLike() {
     if (!session.session) {
@@ -145,7 +126,7 @@ export default function (props: { postId: string, post: Post }) {
               Yuanlin Lin 林沅霖
             </p>
             <p className="text-white lg:text-xl ml-2 lg:ml-8 opacity-60">
-              {post?.createdAt.toISOString().split('T')[0]}
+              {new Date(post?.createdAt).toISOString().split('T')[0]}
             </p>
           </div>}
 
@@ -154,10 +135,10 @@ export default function (props: { postId: string, post: Post }) {
       <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen">
         <div id="article" className="my-16">
           {!post && <ArticleSkeleton />}
-          {mdxSource && <MDXRemote {...mdxSource} />}
+          <MDXRemote {...mdxSource} />
         </div>
 
-        {likes && mdxSource && <div className="mb-32">
+        {likes && <div className="mb-32">
           <div
             onClick={handleLike}
             className="group flex items-center
@@ -229,7 +210,8 @@ export async function getServerSideProps(context: NextPageContext) {
     return { props: { error: 'Post not found.' } };
   try {
     const post = await getPost(postId);
-    return { props: { postId, post } };
+    const mdxSource = await serialize(post.content);
+    return { props: { postId, post, mdxSource } };
   } catch (error) {
     return { props: { error } };
   }

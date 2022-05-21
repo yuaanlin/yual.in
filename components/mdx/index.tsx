@@ -1,7 +1,7 @@
 import SelectQuestion from './SelectQuestion';
-import FadeInImage from '../FadeInImage';
 import { Note as NoteRaw, Snippet as SnippetRaw, Tree } from '@geist-ui/core';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { useEffect, useState } from 'react';
 
 function Note(props: any) {
   return <NoteRaw {...props} style={{ margin: '24px 0' }}>
@@ -18,7 +18,6 @@ function Snippet(props: any) {
 }
 
 function code({ className, ...props }: any) {
-  console.log(className);
   const match = /language-(\w+)/.exec(className || '');
   return match
     ? <SyntaxHighlighter language={match[1]} PreTag="div" {...props} />
@@ -35,20 +34,38 @@ const mdxComponents = {
     {...props}>{props.children}</ol>,
   pre: (props: any) => <pre className="mdx-rendered" {...props} />,
   code,
-  img: (props: any) => <div className="mdx-rendered my-16">
-    {props.src.startsWith('https://www.youtube.com/embed/') ? <iframe
-      src={props.src}
-      className="w-full h-96 shadow-lg rounded-xl lg:hover:scale-105
+  img: (props: any) => {
+    const [isLoaded, setLoaded] = useState(false);
+    useEffect(() => {
+      setLoaded(true);
+    }, []);
+
+    if (props.src.startsWith('https://www.youtube.com/embed/')) {
+      return <>
+        <iframe
+          src={props.src}
+          className="w-full h-96 shadow-lg rounded-xl lg:hover:scale-105
         transition-all duration-200 hover:shadow-2xl"
-      title="YouTube video player"
-      allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
-      allowFullScreen /> :
-      <FadeInImage
-      className="shadow-lg rounded-xl lg:hover:scale-105
-       transition-all duration-200 hover:shadow-2xl"
-      {...props} />}
-    <p className="text-center text-xs opacity-50">{props.alt}</p>
-  </div>
+          title="YouTube video player"
+          allow="accelerometer; clipboard-write; gyroscope; picture-in-picture"
+          allowFullScreen />
+        {isLoaded && <p className="text-center text-xs opacity-50">
+          {props.alt}
+        </p>}
+      </>;
+    }
+
+    return <>
+      <img
+        src={props.src}
+        alt={props.alt}
+        className="shadow-lg rounded-xl lg:hover:scale-105
+       transition-all duration-200 hover:shadow-2xl mt-16" />
+      {isLoaded && <p className="text-center text-xs opacity-50 mb-16">
+        {props.alt}
+      </p>}
+    </>;
+  }
 };
 
 export default mdxComponents as any;
