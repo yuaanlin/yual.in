@@ -1,4 +1,4 @@
-# blog.linyuanlin.com
+# yuanlin.dev
 
 This is my blog. Built and deployed with following cool technologies:
 

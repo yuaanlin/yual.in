@@ -14,7 +14,7 @@ const MIME_MAP: any = {
  * @param {import('@vercel/node').VercelResponse} res
  */
 export default async function generateImage(req: any, res: any) {
-  const font = await fetch('https://blog.linyuanlin.com/NotoSansTC-Bold.otf');
+  const font = await fetch('https://www.yuanlin.dev/NotoSansTC-Bold.otf');
   const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
   GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
   const { url } = req.query;

@@ -7,7 +7,7 @@ interface Props {
 function SocialLinks(props: Props) {
   return <div className="flex lg:mt-4 opacity-70 items-center">
     <a
-      href="https://www.linyuanlin.com"
+      href="https://portfolio.yuanlin.dev"
       target="_blank"
       rel="noreferrer">
       <Globe
