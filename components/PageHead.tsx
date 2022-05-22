@@ -4,6 +4,7 @@ interface Props {
   title?: string;
   description?: string;
   imageUrl?: string;
+  canonicalUrl?: string;
   type?: string;
   keywords?: string[];
 }
@@ -17,6 +18,7 @@ function PageHead(props: Props) {
       property="og:title"
       content={props?.title || 'Blog | Yuanlin Lin 林沅霖'}
       key="title" />
+    {props.canonicalUrl && <link rel="canonical" href={props.canonicalUrl} />}
     <meta
       name="description"
       content={props?.description || '我是林沅霖，目前就讀於浙江大學資訊工程系。' +
