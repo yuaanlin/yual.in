@@ -180,13 +180,13 @@ export default function (props: PageProps) {
 
       <div className="w-full pb-32 pt-16 bg-zinc-50">
         <div className="w-full lg:w-[650px] px-4 mx-auto">
-          <div className="flex mt-12">
+          <div className="flex mt-12 flex-col md:flex-row">
             <img
               src="https://avatars.githubusercontent.com/u/21105863?v=4"
               alt="author-avatar"
               className="w-24 h-24 rounded-full"
             />
-            <div className="ml-12">
+            <div className="ml-0 mt-12 md:ml-12 md:mt-0">
               <p className="font-extrabold opacity-60 mb-4">
                 關於作者
               </p>
@@ -194,7 +194,7 @@ export default function (props: PageProps) {
                 Yuanlin Lin 林沅霖
               </p>
               <p className="mt-6 mb-12 opacity-70">
-                台灣桃園人，目前在浙江大學就讀計算機科學與技術，同時兼職外包全端開發工程師，熱愛產品設計與軟體開發。
+                台灣桃園人，目前就讀浙江大學，主修計算機科學與技術，同時兼職外包全端開發工程師，熱愛產品設計與軟體開發。
               </p>
               <SocialLinks />
             </div>
