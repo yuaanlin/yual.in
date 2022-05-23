@@ -29,6 +29,21 @@ export default function (props: PageProps) {
     userAvatars: string[]
   }>();
 
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  async function refresh() {
+    if (!postId) return;
+    try {
+      const likes = await fetch('/api/posts/' + postId + '/likes');
+      const likesData = await likes.json();
+      setLikes(likesData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async function handleLike() {
     if (!session.session) {
       window.location.href =
@@ -144,17 +159,17 @@ export default function (props: PageProps) {
             onClick={handleLike}
             className="group flex items-center
         cursor-pointer">
-            <p className="text-[#dd0000] mr-2">{likes.likeCount}</p>
             <Heart
-              fill="#cc0000"
+              fill="#C9A7A7"
               fillOpacity={likes.userLike / 10}
-              color="#cc0000"
+              color="#C9A7A7"
               className="group-active:scale-125 transition" />
-            <p className="select-none text-[#dd0000] ml-4">
-              喜歡這篇文章嗎? 給我一個愛心吧!
-            </p>
-          </div>
-          <div className="mt-6">
+            {likes.likeCount && <p className="text-[#C9A7A7] ml-4 mr-6">
+              {likes.likeCount}
+            </p>}
+            {likes.likeCount === 0 && <p className="text-[#C9A7A7] ml-4 mr-6">
+              給這篇文章一個愛心吧！
+            </p>}
             <Avatar.Group>
               {likes.userAvatars?.map((avatar, index) =>
                 <Avatar key={index} src={avatar} stacked />)}
