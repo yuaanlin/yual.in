@@ -148,13 +148,13 @@ export default function (props: PageProps) {
 
         </div>
       </div>
-      <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen">
+      <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen pb-32">
         <div id="article" className="my-16">
           {!post && <ArticleSkeleton />}
           <MDXRemote {...mdxSource} />
         </div>
 
-        {likes && <div className="mb-32">
+        {likes && <div>
           <div
             onClick={handleLike}
             className="group flex items-center
@@ -177,6 +177,31 @@ export default function (props: PageProps) {
           </div>
         </div>}
       </div>
+
+      <div className="w-full pb-32 pt-16 bg-zinc-50">
+        <div className="w-full lg:w-[650px] px-4 mx-auto">
+          <div className="flex mt-12">
+            <img
+              src="https://avatars.githubusercontent.com/u/21105863?v=4"
+              alt="author-avatar"
+              className="w-24 h-24 rounded-full"
+            />
+            <div className="ml-12">
+              <p className="font-extrabold opacity-60 mb-4">
+                關於作者
+              </p>
+              <p className="font-extrabold text-2xl">
+                Yuanlin Lin 林沅霖
+              </p>
+              <p className="mt-6 mb-12 opacity-70">
+                台灣桃園人，目前在浙江大學就讀計算機科學與技術，同時兼職外包全端開發工程師，熱愛產品設計與軟體開發。
+              </p>
+              <SocialLinks />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         id="g_id_onload"
         data-auto_select="true"
