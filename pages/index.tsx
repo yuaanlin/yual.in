@@ -7,6 +7,7 @@ import {
   getPostsInRedis,
   setPostsInRedis
 } from '../services/getPosts';
+import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
 import Link from 'next/link';
 import cx from 'classnames';
 
@@ -56,7 +57,7 @@ export default function (props: { posts: Post[] }) {
         id="g_id_onload"
         data-auto_select="true"
         data-skip_prompt_cookie="token"
-        data-client_id="161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com"
+        data-client_id={GOOGLE_OAUTH_CLIENT_ID}
         data-login_uri="/api/login?url=/" />
     </div>
   );

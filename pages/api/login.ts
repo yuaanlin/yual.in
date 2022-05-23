@@ -1,11 +1,9 @@
 import getMongoClient from '../../services/getMongoClient';
+import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
-
-const CLIENT_ID =
-  '161014027797-ugj4ctsem3iu68701fe48u0vgc1ck4qm.apps.googleusercontent.com';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -15,7 +13,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       res.status(500).json({ message: 'JWT_SECRET is not set' });
       return;
     }
-    const client = new OAuth2Client(CLIENT_ID);
+    const client = new OAuth2Client(GOOGLE_OAUTH_CLIENT_ID);
     let redirect = '/';
     const user: any = {
       name: '',
@@ -29,7 +27,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         if (typeof redirectUrl === 'string') redirect = redirectUrl;
         const ticket = await client.verifyIdToken({
           idToken: req.body.credential,
-          audience: CLIENT_ID,
+          audience: GOOGLE_OAUTH_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         if (!payload) {
@@ -49,16 +47,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         const host = req.headers.host;
         const verify = await axios.post(
           'https://oauth2.googleapis.com/token',
-          'client_id=' +
-          CLIENT_ID +
-          '&client_secret=' +
-          googleAppSecret +
-          '&redirect_uri=https://' +
-          host +
-          '/api/login' +
+          `client_id=${GOOGLE_OAUTH_CLIENT_ID}` +
+          `&client_secret=${googleAppSecret}` +
+          `&redirect_uri=https://${host}/api/login` +
           '&grant_type=authorization_code' +
-          '&code=' +
-          code
+          `&code=${code}`
         );
 
         const getUserInfoRes = await axios.get(
