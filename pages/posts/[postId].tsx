@@ -1,4 +1,4 @@
-import Post from '../../models/post';
+import Post, { parsePost } from '../../models/post';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
@@ -10,7 +10,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { NextPageContext } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
-import { Heart } from 'react-feather';
+import { ArrowLeft, Heart } from 'react-feather';
 import { Avatar } from '@geist-ui/core';
 
 interface PageProps {
@@ -20,9 +20,10 @@ interface PageProps {
 
 export default function (props: PageProps) {
   const { post, mdxSource } = props;
-  const postId = post._id;
+  const postId = parsePost(post)._id.toHexString();
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
   const session = useSession();
+  const [posts, setPosts] = useState<Post[]>([]);
   const [likes, setLikes] = useState<{
     userLike: number,
     likeCount: number,
@@ -39,6 +40,9 @@ export default function (props: PageProps) {
       const likes = await fetch('/api/posts/' + postId + '/likes');
       const likesData = await likes.json();
       setLikes(likesData);
+      const posts = await fetch('/api/posts');
+      const postsData = await posts.json();
+      setPosts(postsData.map((p: Post) => parsePost(p)));
     } catch (err) {
       console.error(err);
     }
@@ -180,25 +184,70 @@ export default function (props: PageProps) {
 
       <div className="w-full pb-32 pt-16 bg-zinc-50">
         <div className="w-full lg:w-[650px] px-4 mx-auto">
-          <div className="flex mt-12 flex-col md:flex-row">
+          <div className="flex items-center mt-12 flex-col md:flex-row">
             <img
               src="https://avatars.githubusercontent.com/u/21105863?v=4"
               alt="author-avatar"
               className="w-24 h-24 rounded-full"
             />
             <div className="ml-0 mt-12 md:ml-12 md:mt-0">
-              <p className="font-extrabold opacity-60 mb-4">
+              <p
+                className="font-extrabold opacity-60 mb-4
+              text-center md:text-left">
                 關於作者
               </p>
-              <p className="font-extrabold text-2xl">
+              <p
+                className="font-extrabold text-2xl
+              text-center md:text-left">
                 Yuanlin Lin 林沅霖
               </p>
-              <p className="mt-6 mb-12 opacity-70">
+              <p
+                className="mt-6 mb-12 opacity-70
+              text-center md:text-left">
                 台灣桃園人，目前就讀浙江大學，主修計算機科學與技術，同時兼職外包全端開發工程師，熱愛產品設計與軟體開發。
               </p>
-              <SocialLinks />
+              <div className="flex justify-center md:justify-start">
+                <SocialLinks />
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="w-full pb-32 pt-16 bg-zinc-100">
+        <div className="w-full lg:w-[650px] px-4 mx-auto">
+          <p className="mb-16 font-extrabold text-center md:text-left">
+            閱讀更多
+          </p>
+          {posts
+            .filter(p => p._id.toHexString() !== postId)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5)
+            .map(p => <Link
+              key={p._id.toHexString()}
+              href="/posts/[postId]"
+              as={`/posts/${p._id}`}>
+              <div className="mb-12 flex flex-col md:flex-row cursor-pointer">
+                <img
+                  src={p.coverImageUrl}
+                  alt={p.title}
+                  className="w-full md:w-48 h-48 object-cover
+                   mr-8 rounded-lg" />
+                <div className="flex-1 mt-4 md:mt-0">
+                  <p className="font-extrabold text-xl">{p.title}</p>
+                  <p className="opacity-40 my-4">
+                    {p.createdAt.toLocaleDateString()}
+                  </p>
+                  <p className="font-bold opacity-60">{p.content}</p>
+                </div>
+              </div>
+            </Link>)
+          }
+          <Link href="/" scroll>
+            <div className="flex cursor-pointer">
+              <ArrowLeft className="mr-4" />
+              <p>回部落格首頁</p>
+            </div>
+          </Link>
         </div>
       </div>
 
@@ -252,7 +301,7 @@ export async function getServerSideProps(context: NextPageContext) {
   try {
     const post = await getPost(postId);
     const mdxSource = await serialize(post.content);
-    return { props: { postId, post, mdxSource } };
+    return { props: { key: postId, postId, post, mdxSource } };
   } catch (error) {
     return { props: { error } };
   }

@@ -1,22 +1,32 @@
 import '../styles/globals.css';
 import { SessionProvider, useSession } from '../src/session';
 import User from '../models/user';
+import mdxComponents from '../components/mdx';
 import { useEffect, useState } from 'react';
 import { Avatar, GeistProvider, useToasts } from '@geist-ui/core';
-import dynamic from 'next/dynamic';
+import NProgress from 'nprogress';
+import { useRouter } from 'next/router';
+import { MDXProvider } from '@mdx-js/react';
 import type { AppProps } from 'next/app';
 import 'nprogress/nprogress.css';
-import { MDXProvider } from '@mdx-js/react';
-import mdxComponents from '../components/mdx';
-
-const TopProgressBar = dynamic(
-  () => {
-    return import('../components/TopProgressBar');
-  },
-  { ssr: false },
-);
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const router = useRouter();
+
+  useEffect(() => {
+    let routeChangeStart = () => NProgress.start();
+    let routeChangeComplete = () => NProgress.done();
+
+    router.events.on('routeChangeStart', routeChangeStart);
+    router.events.on('routeChangeComplete', routeChangeComplete);
+    router.events.on('routeChangeError', routeChangeComplete);
+    return () => {
+      router.events.off('routeChangeStart', routeChangeStart);
+      router.events.off('routeChangeComplete', routeChangeComplete);
+      router.events.off('routeChangeError', routeChangeComplete);
+    };
+  }, []);
 
   const [session, setSession] = useState<User | null>(null);
 
@@ -43,7 +53,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GeistProvider>
       <MDXProvider components={mdxComponents}>
         <SessionRestoreNotification />
-        <TopProgressBar />
         <Component {...pageProps} />
       </MDXProvider>
     </GeistProvider>
