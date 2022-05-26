@@ -2,7 +2,6 @@ import Post, { parsePost } from '../../models/post';
 import getPost from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
-import FadeInImage from '../../components/FadeInImage';
 import { useSession } from '../../src/session';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ import Link from 'next/link';
 import cx from 'classnames';
 import { ArrowLeft, Heart } from 'react-feather';
 import { Avatar } from '@geist-ui/core';
+import Image from 'next/image';
 
 interface PageProps {
   post: Post
@@ -114,8 +114,10 @@ export default function (props: PageProps) {
       </div>
       <div
         className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
-         relative flex justify-center">
-        <FadeInImage
+         relative flex justify-center relative">
+        <Image
+          layout="fill"
+          objectFit="cover"
           src={post?.coverImageUrl}
           className="absolute top-0 w-full h-full object-cover bg-zinc-500"
           alt="" />
