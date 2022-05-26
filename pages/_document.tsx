@@ -1,18 +1,14 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-5S8XLKRFYM"></script>
-          <script
-            src="https://accounts.google.com/gsi/client"
-            async
-            defer></script>
-          <script
+          <Script src="https://www.googletagmanager.com/gtag/js?id=G-5S8XLKRFYM"/>
+          <Script src="https://accounts.google.com/gsi/client" />
+          <Script
             dangerouslySetInnerHTML={{
               __html: `
         window.dataLayer = window.dataLayer || [];
@@ -21,10 +17,16 @@ export default class MyDocument extends Document {
         gtag('config', 'G-5S8XLKRFYM');
       `
             }}>
-          </script>
+          </Script>
           <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css" />
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css"
+            media="print"
+            onLoad={() => {
+              // @ts-ignore
+              this.media = 'all';
+            }}
+          />
         </Head>
         <body>
           <Main />
