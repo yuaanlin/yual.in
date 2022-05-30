@@ -11,6 +11,7 @@
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
     "@napi-rs/canvas": "^0.1.21",
+    "@next/bundle-analyzer": "^12.1.6",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/nprogress": "^0.2.0",
     "@types/react-syntax-highlighter": "^15.5.1",

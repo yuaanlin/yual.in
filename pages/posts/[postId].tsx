@@ -296,6 +296,7 @@ function ArticleSkeleton() {
 
 export async function getServerSideProps(context: NextPageContext) {
   const postId = context.query.postId;
+  context.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
   if (typeof postId !== 'string')
     return { props: { error: 'Post not found.' } };
   try {

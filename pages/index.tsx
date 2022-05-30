@@ -10,6 +10,7 @@ import {
 import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
 import Link from 'next/link';
 import cx from 'classnames';
+import { NextPageContext } from 'next';
 
 export default function (props: { posts: Post[] }) {
   const data = props.posts.map(parsePost);
@@ -63,10 +64,11 @@ export default function (props: { posts: Post[] }) {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx: NextPageContext) {
   const postsInRedis = await getPostsInRedis();
   if (postsInRedis) return { props: { posts: postsInRedis } };
   const postsInMongo = await getPostsInMongo();
   await setPostsInRedis(postsInMongo);
+  ctx.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
   return { props: { posts: postsInMongo } };
 }
