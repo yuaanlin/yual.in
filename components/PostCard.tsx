@@ -27,32 +27,34 @@ function PostCard(props: Props) {
     </div>;
   }
 
-  return <Link href={'/posts/' + post._id} scroll>
-    <div className="w-full">
-      <div
-        className={cx(imageClassName, 'w-full object-cover transition',
-          'overflow-hidden',
-          'rounded-lg cursor-pointer shadow-lg lg:hover:scale-105 relative')}>
-        <Image
-          layout="fill"
-          objectFit="cover"
-          src={post.coverImageUrl}
-          alt="" />
-      </div>
-      <p
-        className={cx(titleClassName, 'font-extrabold text-2xl',
-          'mt-6 cursor-pointer')}>
-        {post.title}
-      </p>
-      <p
-        className="text-[#b2938d] font-extrabold
+  return <Link href={'/posts/' + post.slug} scroll>
+    <a>
+      <div className="w-full">
+        <div
+          className={cx(imageClassName, 'w-full object-cover transition',
+            'overflow-hidden',
+            'rounded-lg cursor-pointer shadow-lg lg:hover:scale-105 relative')}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src={post.coverImageUrl}
+            alt="" />
+        </div>
+        <p
+          className={cx(titleClassName, 'font-extrabold text-2xl',
+            'mt-6 cursor-pointer')}>
+          {post.title}
+        </p>
+        <p
+          className="text-[#b2938d] font-extrabold
       mt-2 cursor-pointer">
-        {post.createdAt.toISOString().split('T')[0]}
-      </p>
-      <p className="text-zinc-500 mt-4 cursor-pointer">
-        {post.content.substring(0, 100)} ...
-      </p>
-    </div>
+          {post.createdAt.toISOString().split('T')[0]}
+        </p>
+        <p className="text-zinc-500 mt-4 cursor-pointer">
+          {post.content.substring(0, 100)} ...
+        </p>
+      </div>
+    </a>
   </Link>;
 }
 

@@ -6,6 +6,24 @@ import { ObjectId } from 'mongodb';
 const redisUrl = process.env['REDIS_URL'];
 const redisToken = process.env['REDIS_TOKEN'];
 
+export async function getPostBySlug(slug: string): Promise<Post> {
+  let redis: Redis | undefined;
+  if (redisUrl && redisToken) {
+    redis = new Redis({ url: redisUrl, token: redisToken });
+    const cache = await redis.get('post_' + slug);
+    if (cache) return cache as Post;
+  }
+  const client = await getMongoClient();
+  try {
+    const collection = client.db('blog').collection('posts');
+    const find = await collection.findOne({ slug });
+    await redis?.set('post_' + slug, JSON.stringify(find));
+    return find as Post;
+  } finally {
+    await client.close();
+  }
+}
+
 async function getPost(postId: string): Promise<Post> {
   let redis: Redis | undefined;
   if (redisUrl && redisToken) {

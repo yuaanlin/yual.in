@@ -1,5 +1,5 @@
 import Post, { parsePost } from '../../models/post';
-import getPost from '../../services/getPost';
+import getPost, { getPostBySlug } from '../../services/getPost';
 import PageHead from '../../components/PageHead';
 import SocialLinks from '../../components/SocialLinks';
 import { useSession } from '../../src/session';
@@ -299,6 +299,16 @@ export async function getServerSideProps(context: NextPageContext) {
   context.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
   if (typeof postId !== 'string')
     return { props: { error: 'Post not found.' } };
+  if (!postId.match(/^[a-f\d]{24}$/i)) {
+    try {
+      const post = await getPostBySlug(postId);
+      const mdxSource = await serialize(post.content);
+      return { props: { key: postId, postId, post, mdxSource } };
+    } catch (error) {
+      console.error(error);
+      return { props: {} };
+    }
+  }
   try {
     const post = await getPost(postId);
     const mdxSource = await serialize(post.content);

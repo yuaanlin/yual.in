@@ -1,4 +1,4 @@
-import Post, { parsePost } from '../models/post';
+import Post, { parsePost, serializePost } from '../models/post';
 import PostCard from '../components/PostCard';
 import PageHead from '../components/PageHead';
 import SocialLinks from '../components/SocialLinks';
@@ -67,7 +67,8 @@ export default function (props: { posts: Post[] }) {
 export async function getServerSideProps(ctx: NextPageContext) {
   const postsInRedis = await getPostsInRedis();
   if (postsInRedis) return { props: { posts: postsInRedis } };
-  const postsInMongo = await getPostsInMongo();
+  let postsInMongo: any = await getPostsInMongo();
+  postsInMongo = postsInMongo.map(serializePost);
   await setPostsInRedis(postsInMongo);
   ctx.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
   return { props: { posts: postsInMongo } };
