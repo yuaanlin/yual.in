@@ -18,6 +18,7 @@ function PageHead(props: Props) {
       property="og:title"
       content={props?.title || 'Blog | Yuanlin Lin 林沅霖'}
       key="title" />
+    <meta name="robots" content="index,follow" />
     {props.canonicalUrl && <link rel="canonical" href={props.canonicalUrl} />}
     <meta
       name="description"
