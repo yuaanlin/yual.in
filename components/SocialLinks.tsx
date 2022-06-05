@@ -16,14 +16,14 @@ function SocialLinks(props: Props) {
         color={props.color} />
     </a>
     <a
-      href="https://github.com/ken20001207"
+      href="https://github.com/yuaanlin"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
       <GitHub size={18} color={props.color} />
     </a>
     <a
-      href="https://www.linkedin.com/in/yuanlin-lin-75a992202"
+      href="https://www.linkedin.com/in/yuanlinlin"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
