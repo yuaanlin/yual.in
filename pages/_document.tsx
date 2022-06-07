@@ -6,18 +6,21 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <Script src="https://www.googletagmanager.com/gtag/js?id=G-5S8XLKRFYM"/>
-          <Script src="https://accounts.google.com/gsi/client" />
-          <Script
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-5S8XLKRFYM"
+          />
+          <script
             dangerouslySetInnerHTML={{
               __html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-5S8XLKRFYM');
-      `
-            }}>
-          </Script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-5S8XLKRFYM');
+            `,
+            }}
+          />
+          <Script src="https://accounts.google.com/gsi/client" />
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css"
