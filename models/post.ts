@@ -19,12 +19,26 @@ export function parsePost(data: Post) {
   };
 }
 
+function dateToISOString(date: any) {
+  if (typeof date.toISOString === 'function') {
+    return date.toISOString();
+  }
+  return date;
+}
+
+function toHexString(id: any) {
+  if (typeof id.toHexString === 'function') {
+    return id.toHexString();
+  }
+  return id;
+}
+
 export function serializePost(data: Post) {
   return {
     ...data,
-    _id: data._id.toHexString(),
-    createdAt: data.createdAt.toISOString(),
-    updatedAt: data.updatedAt.toISOString()
+    _id: toHexString(data._id),
+    createdAt: dateToISOString(data.createdAt),
+    updatedAt: dateToISOString(data.updatedAt)
   };
 }
 
