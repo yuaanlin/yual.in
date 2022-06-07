@@ -2,7 +2,7 @@ import Post from '../models/post';
 import { Redis } from '@upstash/redis';
 import { MongoClient } from 'mongodb';
 
-const uri = process.env['MONGODB_URI'];
+const uri = process.env['MONGO_URL'];
 const redisUrl = process.env['REDIS_URL'];
 const redisToken = process.env['REDIS_TOKEN'];
 
