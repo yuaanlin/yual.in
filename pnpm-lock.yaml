@@ -12,7 +12,6 @@ specifiers:
   '@types/react-syntax-highlighter': ^15.5.1
   '@typescript-eslint/eslint-plugin': ^5.21.0
   '@typescript-eslint/parser': ^5.21.0
-  '@upstash/redis': ^1.3.1
   autoprefixer: ^10.4.5
   axios: ^0.27.2
   classnames: ^2.3.1
@@ -31,6 +30,7 @@ specifiers:
   react-dom: 18.1.0
   react-feather: ^2.0.9
   react-syntax-highlighter: ^15.5.0
+  redis: ^4.1.0
   tailwindcss: ^3.0.24
   typescript: 4.6.4
 
@@ -41,7 +41,6 @@ dependencies:
   '@types/jsonwebtoken': 8.5.8
   '@types/nprogress': 0.2.0
   '@types/react-syntax-highlighter': 15.5.1
-  '@upstash/redis': 1.3.1
   axios: 0.27.2
   classnames: 2.3.1
   google-auth-library: 8.0.2
@@ -54,6 +53,7 @@ dependencies:
   react-dom: 18.1.0_react@18.1.0
   react-feather: 2.0.9_react@18.1.0
   react-syntax-highlighter: 15.5.0_react@18.1.0
+  redis: 4.1.0
 
 devDependencies:
   '@types/node': 17.0.30
@@ -398,6 +398,55 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
+  /@redis/bloom/1.0.2_@redis+client@1.1.0:
+    resolution: {integrity: sha512-EBw7Ag1hPgFzdznK2PBblc1kdlj5B5Cw3XwI9/oG7tSn85/HKy3X9xHy/8tm/eNXJYHLXHJL/pkwBpFMVVefkw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/client/1.1.0:
+    resolution: {integrity: sha512-xO9JDIgzsZYDl3EvFhl6LC52DP3q3GCMUer8zHgKV6qSYsq1zB+pZs9+T80VgcRogrlRYhi4ZlfX6A+bHiBAgA==}
+    engines: {node: '>=14'}
+    dependencies:
+      cluster-key-slot: 1.1.0
+      generic-pool: 3.8.2
+      yallist: 4.0.0
+    dev: false
+
+  /@redis/graph/1.0.1_@redis+client@1.1.0:
+    resolution: {integrity: sha512-oDE4myMCJOCVKYMygEMWuriBgqlS5FqdWerikMoJxzmmTUErnTRRgmIDa2VcgytACZMFqpAOWDzops4DOlnkfQ==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/json/1.0.3_@redis+client@1.1.0:
+    resolution: {integrity: sha512-4X0Qv0BzD9Zlb0edkUoau5c1bInWSICqXAGrpwEltkncUwcxJIGEcVryZhLgb0p/3PkKaLIWkjhHRtLe9yiA7Q==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/search/1.0.6_@redis+client@1.1.0:
+    resolution: {integrity: sha512-pP+ZQRis5P21SD6fjyCeLcQdps+LuTzp2wdUbzxEmNhleighDDTD5ck8+cYof+WLec4csZX7ks+BuoMw0RaZrA==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/time-series/1.0.3_@redis+client@1.1.0:
+    resolution: {integrity: sha512-OFp0q4SGrTH0Mruf6oFsHGea58u8vS/iI5+NpYdicaM+7BgqBZH8FFvNZ8rYYLrUO/QRqMq72NpXmxLVNcdmjA==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
   /@rushstack/eslint-patch/1.0.8:
     resolution: {integrity: sha512-ZK5v4bJwgXldAUA8r3q9YKfCwOqoHTK/ZqRjSeRXQrBXWouoPnS4MQtgC4AXGiiBuUu5wxrRgTlv0ktmM4P1Aw==}
     dev: true
@@ -704,14 +753,6 @@ packages:
       '@typescript-eslint/types': 5.21.0
       eslint-visitor-keys: 3.3.0
     dev: true
-
-  /@upstash/redis/1.3.1:
-    resolution: {integrity: sha512-47s6X2WkcemX/Qz1hZqKOmzXWk8oIRqnsUNgnQalKOwi7fkFauN3UVMExigq0gcNrXRSIdpXizHytXKMDbI32w==}
-    dependencies:
-      isomorphic-fetch: 3.0.0
-    transitivePeerDependencies:
-      - encoding
-    dev: false
 
   /abort-controller/3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -1037,6 +1078,11 @@ packages:
 
   /classnames/2.3.1:
     resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
+
+  /cluster-key-slot/1.1.0:
+    resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /color-convert/2.0.1:
@@ -1855,6 +1901,11 @@ packages:
       - supports-color
     dev: false
 
+  /generic-pool/3.8.2:
+    resolution: {integrity: sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==}
+    engines: {node: '>= 4'}
+    dev: false
+
   /get-intrinsic/1.1.1:
     resolution: {integrity: sha512-kWZrnVM42QCiEA2Ig1bG8zjoIMOgxWwYCEeNdwY6Tv/cOSeGpcoX4pXHfKUxNKVoArnrEr2e9srnAxxGIraS9Q==}
     dependencies:
@@ -2271,15 +2322,6 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: true
-
-  /isomorphic-fetch/3.0.0:
-    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
-    dependencies:
-      node-fetch: 2.6.7
-      whatwg-fetch: 3.6.2
-    transitivePeerDependencies:
-      - encoding
-    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3348,6 +3390,17 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /redis/4.1.0:
+    resolution: {integrity: sha512-5hvJ8wbzpCCiuN1ges6tx2SAh2XXCY0ayresBmu40/SGusWHFW86TAlIPpbimMX2DFHOX7RN34G2XlPA1Z43zg==}
+    dependencies:
+      '@redis/bloom': 1.0.2_@redis+client@1.1.0
+      '@redis/client': 1.1.0
+      '@redis/graph': 1.0.1_@redis+client@1.1.0
+      '@redis/json': 1.0.3_@redis+client@1.1.0
+      '@redis/search': 1.0.6_@redis+client@1.1.0
+      '@redis/time-series': 1.0.3_@redis+client@1.1.0
+    dev: false
+
   /refractor/3.6.0:
     resolution: {integrity: sha512-MY9W41IOWxxk31o+YvFCNyNzdkc9M20NoZK5vq6jkv4I/uh2zkWcfudj0Q1fovjUQJrNewS9NMzeTtqPf+n5EA==}
     dependencies:
@@ -3906,10 +3959,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
-
-  /whatwg-fetch/3.6.2:
-    resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==}
     dev: false
 
   /whatwg-url/11.0.0:

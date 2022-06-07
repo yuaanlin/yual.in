@@ -1,17 +1,17 @@
 import getMongoClient from './getMongoClient';
 import Post from '../models/post';
-import { Redis } from '@upstash/redis';
 import { ObjectId } from 'mongodb';
+import { createClient, RedisClientType } from '@redis/client';
 
 const redisUrl = process.env['REDIS_URL'];
-const redisToken = process.env['REDIS_TOKEN'];
 
 export async function getPostBySlug(slug: string): Promise<Post> {
-  let redis: Redis | undefined;
-  if (redisUrl && redisToken) {
-    redis = new Redis({ url: redisUrl, token: redisToken });
-    const cache = await redis.get('post_' + slug);
-    if (cache) return cache as Post;
+  let redis: RedisClientType | undefined;
+  if (redisUrl) {
+    redis = createClient({ url: redisUrl });
+    await redis.connect();
+    const cacheRaw = await redis.get('post_' + slug);
+    if (cacheRaw) return JSON.parse(cacheRaw) as unknown as Post;
   }
   const client = await getMongoClient();
   try {
@@ -25,11 +25,12 @@ export async function getPostBySlug(slug: string): Promise<Post> {
 }
 
 async function getPost(postId: string): Promise<Post> {
-  let redis: Redis | undefined;
-  if (redisUrl && redisToken) {
-    redis = new Redis({ url: redisUrl, token: redisToken });
-    const cache = await redis.get('post_' + postId);
-    if (cache) return cache as Post;
+  let redis: RedisClientType | undefined;
+  if (redisUrl) {
+    redis = createClient({ url: redisUrl });
+    await redis.connect();
+    const cacheRaw = await redis.get('post_' + postId);
+    if (cacheRaw) return JSON.parse(cacheRaw) as unknown as Post;
   }
   const client = await getMongoClient();
   try {
@@ -55,18 +56,21 @@ export async function getPostInMongo(postId: ObjectId) {
 
 export async function getPostInRedis(
   postId: ObjectId): Promise<Post | undefined> {
-  if (!redisUrl || !redisToken)
+  if (!redisUrl)
     throw new Error('Server cannot connect to database.');
-  const redis = new Redis({ url: redisUrl, token: redisToken });
-  const cache = await redis.get<Post>('post_' + postId.toHexString());
-  if (cache) return cache;
+  const client = createClient({ url: redisUrl });
+  await client.connect();
+  const cacheRaw = await client.get('post_' + postId.toHexString());
+  if (!cacheRaw) return;
+  return JSON.parse(cacheRaw) as unknown as Post;
 }
 
 export async function setPostInRedis(post: Post) {
-  if (!redisUrl || !redisToken)
+  if (!redisUrl)
     throw new Error('Server cannot connect to database.');
-  const redis = new Redis({ url: redisUrl, token: redisToken });
-  await redis.set('post_' + post._id.toHexString(), post);
+  const client = createClient({ url: redisUrl });
+  await client.connect();
+  await client.set('post_' + post._id.toHexString(), JSON.stringify(post));
 }
 
 export default getPost;
