@@ -16,7 +16,7 @@ export default function (props: { posts: Post[] }) {
   const data = props.posts.map(parsePost);
   return (
     <div className="min-h-screen">
-      <PageHead canonicalUrl="https://www.yuanlin.dev" />
+      <PageHead canonicalUrl="https://yuanlin.dev" />
       <div
         className="container 2xl:px-32 px-6 lg:px-12 mx-auto flex
        flex-row py-8 lg:pb-24 flex-wrap">

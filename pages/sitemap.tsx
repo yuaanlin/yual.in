@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     postsInMongo.map((e) => {
       urls += `<url>
           <loc>
-              https://www.yuanlin.dev/posts/${e.slug}
+              https://yuanlin.dev/posts/${e.slug}
           </loc>
           <priority>0.8</priority>
           <changefreq>daily</changefreq>
