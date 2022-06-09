@@ -1,6 +1,7 @@
 import getPost from '../../services/getPost';
 import arrayBufferToBuffer from '../../utils/arrayBufferToBuffer';
-import { Canvas, GlobalFonts, Image } from '@napi-rs/canvas';
+import getRedisClient from '../../services/getRedisClient';
+import { Canvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 
 const SUPPORTED_ENCODING = new Set(['png', 'avif', 'webp']);
 const MIME_MAP: any = {
@@ -14,12 +15,22 @@ const MIME_MAP: any = {
  * @param {import('@vercel/node').VercelResponse} res
  */
 export default async function generateImage(req: any, res: any) {
-  const font = await fetch('https://yuanlin.dev/NotoSansTC-Bold.otf');
-  const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
-  GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
-  const { url } = req.query;
+  const { url, type = 'png' } = req.query;
+  let encodeType = SUPPORTED_ENCODING.has(type) ? type : 'png';
+  const redis = await getRedisClient();
   if (url.startsWith('/posts')) {
     const postId = url.split('/')[2];
+    const cached = await redis.get('og:image:' + postId);
+    if (cached) {
+      const buffer = Buffer.from(cached, 'base64');
+      res.setHeader('Content-Type', MIME_MAP[encodeType]);
+      res.setHeader('Content-Disposition', 'inline');
+      res.send(buffer);
+      return;
+    }
+    const font = await fetch('https://yuanlin.dev/NotoSansTC-Bold.otf');
+    const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
+    GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
     const post = await getPost(postId);
     const { title, content, coverImageUrl } = post;
     const cover = await fetch(coverImageUrl);
@@ -38,33 +49,49 @@ export default async function generateImage(req: any, res: any) {
     ctx.save();
     ctx.fillStyle = '#fff';
     ctx.font = '800 64px NotoSansTC-Bold';
-    printAt(ctx, 'Yuanlin', 96, 180, 96, WIDTH);
+    printAt(ctx, 'Yuanlin', 96, 180, 96, WIDTH, 64);
     ctx.fillStyle = '#e0c2bb';
     ctx.font = '800 48px NotoSansTC-Bold';
-    printAt(ctx, 'Blog', 340, 180, 96, WIDTH);
+    printAt(ctx, 'Blog', 340, 180, 96, WIDTH, 48);
     ctx.font = '800 64px NotoSansTC-Bold';
     ctx.fillStyle = '#fff';
 
-    printAt(ctx, title, 96, HEIGHT / 2 - 64, 96, WIDTH - 192);
+    printAt(ctx, title, 96, HEIGHT / 2 - 64, 96, WIDTH - 192, 64);
     ctx.font = '800 36px NotoSansTC-Bold';
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    printAt(ctx, description, 96, HEIGHT - 200, 48, WIDTH - 192);
+    printAt(ctx, description, 96, HEIGHT - 200, 48, WIDTH - 192, 36);
     ctx.restore();
-    const { type = 'png' } = req.query;
-    let encodeType: any;
-    if (SUPPORTED_ENCODING.has(type)) {
-      encodeType = type;
-    } else {
-      encodeType = 'png';
-    }
     const buffer = await canvas.encode(encodeType);
     res.setHeader('Content-Type', MIME_MAP[encodeType]);
     res.setHeader('Content-Disposition', 'inline');
     res.send(buffer);
+    await redis.set(`og:image:${postId}`, buffer.toString('base64'));
   }
 }
 
-function printAt(context: any, text: string, x: number, y: number, lineHeight: number, fitWidth: number) {
+/** calculate string print width by text and fontSize */
+function getStringWidth(text: string, fontSize: number) {
+  let result = 0;
+  for (let idx = 0; idx < text.length; idx++) {
+    if (text.charCodeAt(idx) > 255) {
+      result += fontSize;
+    } else {
+      result += fontSize * 0.5;
+    }
+  }
+  return result;
+}
+
+/** print text on SKRSContext with wrapping */
+function printAt(
+  context: SKRSContext2D,
+  text: string,
+  x: number,
+  y: number,
+  lineHeight: number,
+  fitWidth: number,
+  fontSize: number
+) {
   fitWidth = fitWidth || 0;
 
   if (fitWidth <= 0) {
@@ -74,10 +101,10 @@ function printAt(context: any, text: string, x: number, y: number, lineHeight: n
 
   for (let idx = 1; idx <= text.length; idx++) {
     const str = text.substring(0, idx);
-    if (context.measureText(str).width > fitWidth) {
+    if (getStringWidth(str, fontSize) > fitWidth) {
       context.fillText(text.substring(0, idx - 1), x, y);
       printAt(context, text.substring(idx - 1),
-        x, y + lineHeight, lineHeight, fitWidth);
+        x, y + lineHeight, lineHeight, fitWidth, fontSize);
       return;
     }
   }
