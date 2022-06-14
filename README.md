@@ -1,9 +1,12 @@
 # yuanlin.dev
 
-This is my blog. Built and deployed with following cool technologies:
+This is my blog (https://yuanlin.dev/). Built with following cool technologies:
 
-- [Next.js](https://nextjs.org/) with [TypeScript](https://www.typescriptlang.org/)
-- [MongoDB](https://www.mongodb.com/) hosted by [Atlas](https://www.mongodb.com/atlas/database)
+![](https://skillicons.dev/icons?i=ts,next,tailwind,mongodb,redis)
+
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [MongoDB](https://www.mongodb.com/)
 - [Redis](https://redis.io/)
 - [TailwindCSS](https://tailwindcss.com/) for styling
 - Article wrtten in [MDX](https://mdxjs.com/) syntax
