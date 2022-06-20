@@ -7,12 +7,13 @@ import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { NextPageContext } from 'next';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
 import { ArrowLeft, Heart } from 'react-feather';
 import { Avatar } from '@geist-ui/core';
 import Image from 'next/image';
+import { getPostsInMongo } from '../../services/getPosts';
 
 interface PageProps {
   post: Post
@@ -294,26 +295,39 @@ function ArticleSkeleton() {
   </div>;
 }
 
-export async function getServerSideProps(context: NextPageContext) {
-  const postId = context.query.postId;
-  context.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
-  if (typeof postId !== 'string')
-    return { props: { error: 'Post not found.' } };
+export async function getStaticPaths() {
+  const posts = await getPostsInMongo();
+  const paths = posts.map(p => ({
+    params: { postId: p.slug }
+  }));
+  return { paths, fallback: 'blocking' };
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const postId = context.params?.postId;
+  if (typeof postId !== 'string') return { notFound: true };
   if (!postId.match(/^[a-f\d]{24}$/i)) {
     try {
       const post = await getPostBySlug(postId);
+      if(!post) {
+        return { notFound: true }
+      }
       const mdxSource = await serialize(post.content);
       return { props: { key: postId, postId, post, mdxSource } };
     } catch (error) {
       console.error(error);
-      return { props: {} };
+      return { notFound: true };
     }
   }
   try {
     const post = await getPost(postId);
-    const mdxSource = await serialize(post.content);
-    return { props: { key: postId, postId, post, mdxSource } };
+    return {
+      redirect: {
+        destination: '/posts/' + post.slug,
+        permanent: true
+      }
+    }
   } catch (error) {
-    return { props: { error } };
+    return { notFound: true }
   }
 }
