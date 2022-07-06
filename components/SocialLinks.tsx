@@ -1,3 +1,4 @@
+import LineIcon from './LineIcon';
 import { Facebook, GitHub, Globe, Instagram, Linkedin } from 'react-feather';
 
 interface Props {
@@ -42,6 +43,13 @@ function SocialLinks(props: Props) {
       target="_blank"
       rel="noreferrer">
       <Facebook size={18} color={props.color} />
+    </a>
+    <a
+      href="https://line.me/ti/p/mpo9ZLZb3t"
+      className="ml-4 transition hover:text-zinc-500"
+      target="_blank"
+      rel="noreferrer">
+      <LineIcon color={props.color} size={20} />
     </a>
   </div>;
 }
