@@ -312,6 +312,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }
       const mdxSource = await serialize(post.content);
       return {
+        revalidate: 10,
         props: {
           key: postId,
           postId,

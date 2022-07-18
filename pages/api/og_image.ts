@@ -1,6 +1,5 @@
 import getPost from '../../services/getPost';
 import arrayBufferToBuffer from '../../utils/arrayBufferToBuffer';
-import getRedisClient from '../../services/getRedisClient';
 import { Canvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 
 const SUPPORTED_ENCODING = new Set(['png', 'avif', 'webp']);
@@ -17,17 +16,8 @@ const MIME_MAP: any = {
 export default async function generateImage(req: any, res: any) {
   const { url, type = 'png' } = req.query;
   let encodeType = SUPPORTED_ENCODING.has(type) ? type : 'png';
-  const redis = await getRedisClient();
   if (url.startsWith('/posts')) {
     const postId = url.split('/')[2];
-    const cached = await redis.get('og:image:' + postId);
-    if (cached) {
-      const buffer = Buffer.from(cached, 'base64');
-      res.setHeader('Content-Type', MIME_MAP[encodeType]);
-      res.setHeader('Content-Disposition', 'inline');
-      res.send(buffer);
-      return;
-    }
     const font = await fetch('https://yuanlin.dev/NotoSansTC-Bold.otf');
     const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
     GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
@@ -65,7 +55,6 @@ export default async function generateImage(req: any, res: any) {
     res.setHeader('Content-Type', MIME_MAP[encodeType]);
     res.setHeader('Content-Disposition', 'inline');
     res.send(buffer);
-    await redis.set(`og:image:${postId}`, buffer.toString('base64'));
   }
 }
 

@@ -2,15 +2,11 @@ import Post, { parsePost, serializePost } from '../models/post';
 import PostCard from '../components/PostCard';
 import PageHead from '../components/PageHead';
 import SocialLinks from '../components/SocialLinks';
-import {
-  getPostsInMongo,
-  getPostsInRedis,
-  setPostsInRedis
-} from '../services/getPosts';
+import { getPostsInMongo } from '../services/getPosts';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
 import Link from 'next/link';
 import cx from 'classnames';
-import { NextPageContext } from 'next';
+import { GetStaticProps, NextPageContext } from 'next';
 
 export default function (props: { posts: Post[] }) {
   const data = props.posts.map(parsePost);
@@ -64,12 +60,8 @@ export default function (props: { posts: Post[] }) {
   );
 };
 
-export async function getServerSideProps(ctx: NextPageContext) {
-  const postsInRedis = await getPostsInRedis();
-  if (postsInRedis) return { props: { posts: postsInRedis } };
+export const getStaticProps: GetStaticProps = async () => {
   let postsInMongo: any = await getPostsInMongo();
   postsInMongo = postsInMongo.map(serializePost);
-  await setPostsInRedis(postsInMongo);
-  ctx.res?.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
-  return { props: { posts: postsInMongo } };
-}
+  return { props: { posts: postsInMongo }, revalidate: 10 };
+};
