@@ -227,18 +227,30 @@ export default function (props: PageProps) {
               key={p._id.toHexString()}
               href="/posts/[postId]"
               as={`/posts/${p._id}`}>
-              <div className="mb-12 flex flex-col md:flex-row cursor-pointer">
+              <div
+                className="mb-12 flex flex-col md:flex-row
+              cursor-pointer group">
                 <img
                   src={p.coverImageUrl}
                   alt={p.title}
-                  className="w-full md:w-48 h-48 object-cover
-                   mr-8 rounded-lg" />
+                  className="w-full md:w-48 h-48 object-cover mr-8 rounded-lg
+                   group-hover:scale-105 transition-all duration-500" />
                 <div className="flex-1 mt-4 md:mt-0">
-                  <p className="font-extrabold text-xl">{p.title}</p>
-                  <p className="opacity-40 my-4">
+                  <p
+                    className="font-extrabold text-xl
+                  group-hover:translate-x-2 transition-all duration-700">
+                    {p.title}
+                  </p>
+                  <p
+                    className="opacity-40 my-4 group-hover:translate-x-4
+                   transition-all duration-1000 text-[#473633] font-extrabold">
                     {p.createdAt.toLocaleDateString()}
                   </p>
-                  <p className="font-bold opacity-60">{p.content}</p>
+                  <p
+                    className="lg:opacity-40 group-hover:opacity-100
+                  transition-all">
+                    {p.content}
+                  </p>
                 </div>
               </div>
             </Link>)

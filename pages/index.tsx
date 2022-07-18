@@ -6,7 +6,7 @@ import { getPostsInMongo } from '../services/getPosts';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
 import Link from 'next/link';
 import cx from 'classnames';
-import { GetStaticProps, NextPageContext } from 'next';
+import { GetStaticProps } from 'next';
 
 export default function (props: { posts: Post[] }) {
   const data = props.posts.map(parsePost);

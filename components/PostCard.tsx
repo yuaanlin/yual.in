@@ -29,11 +29,12 @@ function PostCard(props: Props) {
 
   return <Link href={'/posts/' + post.slug} scroll>
     <a>
-      <div className="w-full">
+      <div className="w-full group transition-all duration-1000">
         <div
-          className={cx(imageClassName, 'w-full object-cover transition',
-            'overflow-hidden',
-            'rounded-lg cursor-pointer shadow-lg lg:hover:scale-105 relative')}>
+          className={cx(imageClassName, 'w-full object-cover',
+            'overflow-hidden lg:group-hover:scale-105 duration-500',
+            'rounded-lg cursor-pointer shadow-lg',
+            'relative')}>
           <Image
             layout="fill"
             objectFit="cover"
@@ -42,15 +43,17 @@ function PostCard(props: Props) {
         </div>
         <p
           className={cx(titleClassName, 'font-extrabold text-2xl',
-            'mt-6 cursor-pointer')}>
+            'mt-6 cursor-pointer group-hover:translate-x-2', 'duration-1000')}>
           {post.title}
         </p>
         <p
-          className="text-[#b2938d] font-extrabold
-      mt-2 cursor-pointer">
+          className="text-[#b2938d] font-extrabold duration-700
+      mt-2 cursor-pointer group-hover:translate-x-4 transition-all">
           {post.createdAt.toISOString().split('T')[0]}
         </p>
-        <p className="text-zinc-500 mt-4 cursor-pointer">
+        <p
+          className="lg:opacity-40 mt-4 cursor-pointer
+        group-hover:opacity-100 transition-all">
           {post.content.substring(0, 100)} ...
         </p>
       </div>
