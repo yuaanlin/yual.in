@@ -30,7 +30,6 @@ specifiers:
   react-dom: 18.1.0
   react-feather: ^2.0.9
   react-syntax-highlighter: ^15.5.0
-  redis: ^4.1.0
   tailwindcss: ^3.0.24
   typescript: 4.6.4
 
@@ -53,7 +52,6 @@ dependencies:
   react-dom: 18.1.0_react@18.1.0
   react-feather: 2.0.9_react@18.1.0
   react-syntax-highlighter: 15.5.0_react@18.1.0
-  redis: 4.1.0
 
 devDependencies:
   '@types/node': 17.0.30
@@ -396,55 +394,6 @@ packages:
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
-    dev: false
-
-  /@redis/bloom/1.0.2_@redis+client@1.1.0:
-    resolution: {integrity: sha512-EBw7Ag1hPgFzdznK2PBblc1kdlj5B5Cw3XwI9/oG7tSn85/HKy3X9xHy/8tm/eNXJYHLXHJL/pkwBpFMVVefkw==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.1.0
-    dev: false
-
-  /@redis/client/1.1.0:
-    resolution: {integrity: sha512-xO9JDIgzsZYDl3EvFhl6LC52DP3q3GCMUer8zHgKV6qSYsq1zB+pZs9+T80VgcRogrlRYhi4ZlfX6A+bHiBAgA==}
-    engines: {node: '>=14'}
-    dependencies:
-      cluster-key-slot: 1.1.0
-      generic-pool: 3.8.2
-      yallist: 4.0.0
-    dev: false
-
-  /@redis/graph/1.0.1_@redis+client@1.1.0:
-    resolution: {integrity: sha512-oDE4myMCJOCVKYMygEMWuriBgqlS5FqdWerikMoJxzmmTUErnTRRgmIDa2VcgytACZMFqpAOWDzops4DOlnkfQ==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.1.0
-    dev: false
-
-  /@redis/json/1.0.3_@redis+client@1.1.0:
-    resolution: {integrity: sha512-4X0Qv0BzD9Zlb0edkUoau5c1bInWSICqXAGrpwEltkncUwcxJIGEcVryZhLgb0p/3PkKaLIWkjhHRtLe9yiA7Q==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.1.0
-    dev: false
-
-  /@redis/search/1.0.6_@redis+client@1.1.0:
-    resolution: {integrity: sha512-pP+ZQRis5P21SD6fjyCeLcQdps+LuTzp2wdUbzxEmNhleighDDTD5ck8+cYof+WLec4csZX7ks+BuoMw0RaZrA==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.1.0
-    dev: false
-
-  /@redis/time-series/1.0.3_@redis+client@1.1.0:
-    resolution: {integrity: sha512-OFp0q4SGrTH0Mruf6oFsHGea58u8vS/iI5+NpYdicaM+7BgqBZH8FFvNZ8rYYLrUO/QRqMq72NpXmxLVNcdmjA==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.1.0
     dev: false
 
   /@rushstack/eslint-patch/1.0.8:
@@ -1078,11 +1027,6 @@ packages:
 
   /classnames/2.3.1:
     resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
-    dev: false
-
-  /cluster-key-slot/1.1.0:
-    resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
-    engines: {node: '>=0.10.0'}
     dev: false
 
   /color-convert/2.0.1:
@@ -1899,11 +1843,6 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
-    dev: false
-
-  /generic-pool/3.8.2:
-    resolution: {integrity: sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==}
-    engines: {node: '>= 4'}
     dev: false
 
   /get-intrinsic/1.1.1:
@@ -3389,17 +3328,6 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
-
-  /redis/4.1.0:
-    resolution: {integrity: sha512-5hvJ8wbzpCCiuN1ges6tx2SAh2XXCY0ayresBmu40/SGusWHFW86TAlIPpbimMX2DFHOX7RN34G2XlPA1Z43zg==}
-    dependencies:
-      '@redis/bloom': 1.0.2_@redis+client@1.1.0
-      '@redis/client': 1.1.0
-      '@redis/graph': 1.0.1_@redis+client@1.1.0
-      '@redis/json': 1.0.3_@redis+client@1.1.0
-      '@redis/search': 1.0.6_@redis+client@1.1.0
-      '@redis/time-series': 1.0.3_@redis+client@1.1.0
-    dev: false
 
   /refractor/3.6.0:
     resolution: {integrity: sha512-MY9W41IOWxxk31o+YvFCNyNzdkc9M20NoZK5vq6jkv4I/uh2zkWcfudj0Q1fovjUQJrNewS9NMzeTtqPf+n5EA==}
