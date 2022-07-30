@@ -89,25 +89,3 @@ export default function () {
     </div>
   );
 };
-
-export async function getServerSideProps(context: NextPageContext) {
-  const JWT_SECRET = process.env.JWT_SECRET;
-  if (!JWT_SECRET) {
-    return { redirect: { permanent: false, destination: '/' }, props: {} };
-  }
-
-  const token = context.req?.headers.cookie?.split(';').map(c => c.trim())
-    .find(c => c.startsWith('token='));
-  if (!token) {
-    return { redirect: { permanent: false, destination: '/' }, props: {} };
-  }
-
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err || !decoded ||
-      (decoded as User).email !== 'im.yuanlinlin@gmail.com') {
-      return { redirect: { permanent: false, destination: '/' }, props: {} };
-    }
-  });
-
-  return { props: {} };
-}
