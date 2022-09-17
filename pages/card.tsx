@@ -1,10 +1,23 @@
 import SocialLinks from '../components/SocialLinks';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default () => {
   return <div
     className="w-full pb-32 pt-16 bg-zinc-50 h-screen
     flex flex-col justify-center">
+    <Head>
+      <title>林沅霖 Yuanlin Lin 的電子名片</title>
+      <meta
+        name="og:description"
+        content="本頁是 Yuanlin Lin 林沅霖的電子名片，有自我介紹、作品集與聯繫方式。"
+      />
+      <meta
+        name="og:image"
+        content="/card-og.png"
+      />
+      <meta name="twitter:card" content="summary_large_image"/>
+    </Head>
     <div className="w-full lg:w-[650px] px-16 lg:px-4 mx-auto pb-24">
       <div className="flex items-center mt-12 flex-col justify-center">
         <img
