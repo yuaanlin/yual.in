@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env['MONGO_URL'];
+const uri = process.env['MONGODB_URI'];
 
 export default async function getMongoClient() {
   if (!uri) throw new Error('Server cannot connect to database.');
