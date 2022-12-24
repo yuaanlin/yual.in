@@ -7,12 +7,13 @@ import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
 import Link from 'next/link';
 import cx from 'classnames';
 import { GetStaticProps } from 'next';
+import { getPlaiceholder } from 'plaiceholder';
 
 export default function (props: { posts: Post[] }) {
   const data = props.posts.map(parsePost);
   return (
     <div className="min-h-screen">
-      <PageHead canonicalUrl="https://yuanlin.dev" />
+      <PageHead canonicalUrl="https://yuanlin.dev"/>
       <div
         className="container 2xl:px-32 px-6 lg:px-12 mx-auto flex
        flex-row py-8 lg:pb-24 flex-wrap">
@@ -25,20 +26,11 @@ export default function (props: { posts: Post[] }) {
               <p className="text-lg text-[#c9ada7]">Blog</p>
             </div>
           </Link>
-          <SocialLinks />
+          <SocialLinks/>
         </div>
         <div
           className="w-full my-16 grid grid-cols-1 md:grid-cols-2
           xl:grid-cols-3 gap-12">
-          {!data && [0, 1, 2, 3, 4].map(i =>
-            <div
-              className={cx(i == 0 && 'md:col-span-2')}
-              key={i}>
-              <PostCard
-                post={undefined}
-                imageClassName={cx(i === 0 && 'h-64 lg:h-96',
-                  i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')} />
-            </div>)}
           {data && data.map((post, i) =>
             <div
               className={cx(i == 0 && 'md:col-span-2')}
@@ -46,7 +38,7 @@ export default function (props: { posts: Post[] }) {
               <PostCard
                 post={post}
                 imageClassName={cx(i === 0 && 'h-64 lg:h-96',
-                  i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')} />
+                  i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')}/>
             </div>)}
         </div>
       </div>
@@ -55,7 +47,7 @@ export default function (props: { posts: Post[] }) {
         data-auto_select="true"
         data-skip_prompt_cookie="token"
         data-client_id={GOOGLE_OAUTH_CLIENT_ID}
-        data-login_uri="/api/login?url=/" />
+        data-login_uri="/api/login?url=/"/>
     </div>
   );
 };
@@ -63,5 +55,14 @@ export default function (props: { posts: Post[] }) {
 export const getStaticProps: GetStaticProps = async () => {
   let postsInMongo: any = await getPostsInMongo();
   postsInMongo = postsInMongo.map(serializePost);
-  return { props: { posts: postsInMongo }, revalidate: 10 };
+  await Promise.all(
+    postsInMongo.map(async (p: Post) => {
+      console.info('generating placeholder for ', p.slug, ' ...');
+      const { base64 } = await getPlaiceholder(p.coverImageUrl);
+      p.blurCoverImageDataUrl = base64;
+    }));
+  return {
+    props: { posts: postsInMongo },
+    revalidate: 10
+  };
 };

@@ -4,28 +4,17 @@ import cx from 'classnames';
 import Image from 'next/image';
 
 interface Props {
-  post: Post | undefined;
+  post: Post;
   imageClassName?: string;
   titleClassName?: string;
 }
 
 function PostCard(props: Props) {
-  const { post, imageClassName, titleClassName } = props;
-
-  if (!post) {
-    return <div className="w-full">
-      <div
-        className={cx(imageClassName, 'w-full object-cover',
-          'rounded-lg bg-zinc-200 animate-pulse')}
-      />
-      <div
-        className="w-full lg:w-96 h-8 mt-6 bg-zinc-300
-      animate-pulse rounded-lg" />
-      <div className="w-72 h-4 mt-6 bg-zinc-100 animate-pulse rounded-lg" />
-      <div className="w-48 h-4 mt-2 bg-zinc-100 animate-pulse rounded-lg" />
-      <div className="w-64 h-4 mt-2 bg-zinc-100 animate-pulse rounded-lg" />
-    </div>;
-  }
+  const {
+    post,
+    imageClassName,
+    titleClassName
+  } = props;
 
   return <Link href={'/posts/' + post.slug} scroll>
     <a>
@@ -38,8 +27,10 @@ function PostCard(props: Props) {
           <Image
             layout="fill"
             objectFit="cover"
+            placeholder="blur"
+            blurDataURL={post.blurCoverImageDataUrl}
             src={post.coverImageUrl}
-            alt="" />
+            alt=""/>
         </div>
         <p
           className={cx(titleClassName, 'font-extrabold text-2xl',

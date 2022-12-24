@@ -1,13 +1,14 @@
 import { ObjectID } from 'bson';
 
 interface Post {
-  _id: ObjectID
-  title: string
-  createdAt: Date
-  updatedAt: Date
-  coverImageUrl: string
-  content: string
-  slug: string
+  _id: ObjectID;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  coverImageUrl: string;
+  blurCoverImageDataUrl: string;
+  content: string;
+  slug: string;
 }
 
 export function parsePost(data: Post) {
