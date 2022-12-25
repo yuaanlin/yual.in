@@ -4,6 +4,7 @@ import PageHead from '../components/PageHead';
 import SocialLinks from '../components/SocialLinks';
 import { getPostsInMongo } from '../services/getPosts';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../config.client';
+import ChiefNoobLogo from '../public/chiefnoob.png';
 import Link from 'next/link';
 import cx from 'classnames';
 import { GetStaticProps } from 'next';
@@ -31,7 +32,34 @@ export default function (props: { posts: Post[] }) {
         <div
           className="w-full my-16 grid grid-cols-1 md:grid-cols-2
           xl:grid-cols-3 gap-12">
-          {data && data.map((post, i) =>
+          {data && data.map((post, i) => <>
+            {i === 2 && <a
+              href="https://discord.gg/Nyke4bBWJh"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div
+                key="chiefnoob"
+                className="lg:h-full h-[480px] bg-gray-50 shadow cursor-pointer
+              relative group lg:hover:scale-105 duration-500 transition-all
+              overflow-hidden rounded-lg"
+                style={{ background: 'linear-gradient(120deg, rgb(234,121,49) 0%, rgb(282,181,79) 100%)' }}
+              >
+                <div className="p-8 lg:p-12 font-bold text-white">
+                  <p className="text-lg opacity-70">立即加入</p>
+                  <p className="text-4xl mt-2">Chief Noob <br/>菜雞開發社群</p>
+                  <p className="mt-4">
+                    與其他開發者同學們分享交流程式語言、前後端開發、產品設計、系統架構等話題！
+                  </p>
+                </div>
+                <img
+                  src={ChiefNoobLogo.src}
+                  className="w-64 h-64 -rotate-[30deg] absolute -bottom-12
+                -right-12 group-hover:scale-110 transition-all duration-700"
+                  alt="chief-noob-logo"
+                />
+              </div>
+            </a>}
             <div
               className={cx(i == 0 && 'md:col-span-2')}
               key={post._id.toHexString()}>
@@ -39,7 +67,8 @@ export default function (props: { posts: Post[] }) {
                 post={post}
                 imageClassName={cx(i === 0 && 'h-64 lg:h-96',
                   i === 1 && 'h-64', i > 1 && 'h-48 lg:h-64')}/>
-            </div>)}
+            </div>
+          </>)}
         </div>
       </div>
       <div
