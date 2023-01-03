@@ -17,7 +17,10 @@ function Snippet(props: any) {
   />;
 }
 
-function code({ className, ...props }: any) {
+function code({
+  className,
+  ...props
+}: any) {
   const match = /language-(\w+)/.exec(className || '');
   return match
     ? <SyntaxHighlighter language={match[1]} PreTag="div" {...props} />
@@ -48,10 +51,10 @@ const mdxComponents = {
         transition-all duration-200 hover:shadow-2xl"
           title="YouTube video player"
           allow="accelerometer; clipboard-write; gyroscope; picture-in-picture"
-          allowFullScreen />
-        {isLoaded && <p className="text-center text-xs opacity-50">
+          allowFullScreen/>
+        {isLoaded && <span className="text-center text-xs opacity-50">
           {props.alt}
-        </p>}
+        </span>}
       </>;
     }
 
@@ -60,10 +63,10 @@ const mdxComponents = {
         src={props.src}
         alt={props.alt}
         className="shadow-lg rounded-xl lg:hover:scale-105
-       transition-all duration-200 hover:shadow-2xl mt-16" />
-      {isLoaded && <p className="text-center text-xs opacity-50 mb-16">
+       transition-all duration-200 hover:shadow-2xl mt-16"/>
+      {isLoaded && <span className="text-center text-xs opacity-50 mb-16">
         {props.alt}
-      </p>}
+      </span>}
     </>;
   }
 };

@@ -26,7 +26,7 @@
     "plaiceholder": "^2.5.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-feather": "^2.0.9",
+    "react-feather": "^2.0.10",
     "react-syntax-highlighter": "^15.5.0",
     "sharp": "^0.31.3"
   },

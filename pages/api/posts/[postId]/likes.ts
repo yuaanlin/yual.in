@@ -43,6 +43,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           count: count + 1
         });
       } catch (err) {
+        console.error(err);
         await mongo.close();
         res.status(404).json({ error: 'Post not found' });
       }

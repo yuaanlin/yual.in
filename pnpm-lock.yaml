@@ -29,7 +29,7 @@ specifiers:
   postcss: ^8.4.13
   react: 18.1.0
   react-dom: 18.1.0
-  react-feather: ^2.0.9
+  react-feather: ^2.0.10
   react-syntax-highlighter: ^15.5.0
   sharp: ^0.31.3
   tailwindcss: ^3.0.24
@@ -53,7 +53,7 @@ dependencies:
   plaiceholder: 2.5.0_sharp@0.31.3
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
-  react-feather: 2.0.9_react@18.1.0
+  react-feather: 2.0.10_react@18.1.0
   react-syntax-highlighter: 15.5.0_react@18.1.0
   sharp: 0.31.3
 
@@ -864,7 +864,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.3
-      caniuse-lite: 1.0.30001334
+      caniuse-lite: 1.0.30001441
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -942,7 +942,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001334
+      caniuse-lite: 1.0.30001441
       electron-to-chromium: 1.4.129
       escalade: 3.1.1
       node-releases: 2.0.4
@@ -984,8 +984,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /caniuse-lite/1.0.30001334:
-    resolution: {integrity: sha512-kbaCEBRRVSoeNs74sCuq92MJyGrMtjWVfhltoHUCW4t4pXFvGjUBrfo47weBRViHkiV3eBYyIsfl956NtHGazw==}
+  /caniuse-lite/1.0.30001441:
+    resolution: {integrity: sha512-OyxRR4Vof59I3yGWXws6i908EtGbMzVUi3ganaZQHmydk1iwDhRnvaPG2WaR0KcqrDFKrxVZHULT396LEPhXfg==}
 
   /ccount/2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -3056,7 +3056,7 @@ packages:
         optional: true
     dependencies:
       '@next/env': 12.1.5
-      caniuse-lite: 1.0.30001334
+      caniuse-lite: 1.0.30001441
       postcss: 8.4.5
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
@@ -3145,7 +3145,7 @@ packages:
     dev: false
 
   /object-assign/4.1.1:
-    resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
 
   /object-hash/3.0.0:
@@ -3492,10 +3492,10 @@ packages:
       react: 18.1.0
       scheduler: 0.22.0
 
-  /react-feather/2.0.9_react@18.1.0:
-    resolution: {integrity: sha512-yMfCGRkZdXwIs23Zw/zIWCJO3m3tlaUvtHiXlW+3FH7cIT6fiK1iJ7RJWugXq7Fso8ZaQyUm92/GOOHXvkiVUw==}
+  /react-feather/2.0.10_react@18.1.0:
+    resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}
     peerDependencies:
-      react: ^16.8.6 || ^17
+      react: '>=16.8.6'
     dependencies:
       prop-types: 15.8.1
       react: 18.1.0
