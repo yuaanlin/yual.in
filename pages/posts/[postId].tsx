@@ -5,7 +5,7 @@ import SocialLinks from '../../components/SocialLinks';
 import { useSession } from '../../src/session';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { getPostsInMongo } from '../../services/getPosts';
-import User from '../../models/user';
+import Comment from '../../models/comment';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -37,16 +37,7 @@ export default function (props: PageProps) {
     userAvatars: string[]
   }>();
 
-  const [comments, setComments] = useState<{
-    author: User,
-    content: string,
-    createdAt: Date
-    replies: {
-      author: User,
-      content: string,
-      createdAt: Date
-    }[]
-  }[]>([]);
+  const [comments, setComments] = useState<Comment[]>();
 
   const [commentInput, setCommentInput] = useState('');
 
@@ -58,7 +49,7 @@ export default function (props: PageProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: commentInput })
       });
-      if (res.status === 200) {
+      if (res.status === 201) {
         setCommentInput('');
         await refresh();
       }
@@ -85,6 +76,7 @@ export default function (props: PageProps) {
       setPosts(postsData.map((p: Post) => parsePost(p)));
       const comments = await fetch('/api/posts/' + postId + '/comments');
       const commentsData = await comments.json();
+      setComments(commentsData);
     } catch (err) {
       console.error(err);
     }
@@ -227,7 +219,7 @@ export default function (props: PageProps) {
         </div>}
       </div>
 
-      <div className="w-full pb-32 pt-16 bg-zinc-50">
+      <div className="w-full py-16 bg-zinc-50">
         <div className="w-full lg:w-[650px] px-4 mx-auto">
           <p
             className="font-extrabold opacity-60 mb-4
@@ -262,21 +254,28 @@ export default function (props: PageProps) {
           </div>
 
           {comments?.map((comment, index) =>
-            <div key={index} className="flex flex-col gap-4">
+            <div
+              key={index}
+              className="flex flex-col gap-4 my-8"
+            >
               <div className="flex items-center gap-4">
                 <img
                   src={comment.author.avatarUrl}
                   alt="author-avatar"
                   className="w-8 h-8 rounded-full"
                 />
-                <p className="font-extrabold">{comment.content}</p>
-                <p className="opacity-60">{comment.createdAt.toISOString()}</p>
+                <p className="font-extrabold">{comment.author.name}</p>
+                <p className="opacity-60">
+                  {comment.createdAt.split('T')[0]}
+                </p>
               </div>
               <p>{comment.content}</p>
             </div>
           )}
 
-          {comments?.length === 0 && <p className="text-center opacity-60">
+          {(comments && comments.length === 0) && <p
+            className="text-center opacity-60"
+          >
             暫無留言，你可以成為第一個留言的人！
           </p>}
 
@@ -315,7 +314,9 @@ export default function (props: PageProps) {
         </div>
       </div>
 
-      <div className="w-full pb-32 pt-16 text-white bg-zinc-900">
+      {(posts && posts.length > 0) && <div
+        className="w-full pb-32 pt-16 bg-zinc-200"
+      >
         <div className="w-full lg:w-[650px] px-4 mx-auto">
           <p className="mb-16 font-extrabold text-center md:text-left">
             你可能也會喜歡
@@ -363,7 +364,7 @@ export default function (props: PageProps) {
             </div>
           </Link>
         </div>
-      </div>
+      </div>}
 
       <div
         id="g_id_onload"

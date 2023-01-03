@@ -4,7 +4,7 @@ interface Comment {
   _id: string;
   author: User;
   content: string;
-  createdAt: Date;
+  createdAt: string;
   replies: Comment[];
 }
 

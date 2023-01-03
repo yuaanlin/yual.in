@@ -36,8 +36,21 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       }
     case 'GET':
       try {
-        const comments = await mongo.db('blog').collection('comments')
-          .find({ postId: postObjectId })
+        const comments = await mongo
+          .db('blog')
+          .collection('comments')
+          .aggregate([
+            { $match: { postId: postObjectId } },
+            {
+              $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'author',
+              },
+            },
+            { $unwind: '$author' },
+          ])
           .toArray();
         await mongo.close();
         res.status(200).json(comments);
