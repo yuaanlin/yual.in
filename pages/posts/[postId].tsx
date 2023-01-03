@@ -250,6 +250,8 @@ export default function (props: PageProps) {
               ${!session.session ? 'cursor-pointer' : ''}`}
               placeholder={session.session ? '' : '點擊即可登入並留言'}
               onClick={() => !session.session && login()}
+              value={commentInput}
+              onChange={e => setCommentInput(e.target.value)}
             />
             <button
               className="bg-black text-white rounded-lg px-4 py-2 rounded-lg"
