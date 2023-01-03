@@ -6,6 +6,7 @@ import { useSession } from '../../src/session';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { getPostsInMongo } from '../../services/getPosts';
 import Comment from '../../models/comment';
+import getComments from '../../services/getComments';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -15,10 +16,12 @@ import cx from 'classnames';
 import { ArrowLeft, Heart } from 'react-feather';
 import { Avatar, useToasts } from '@geist-ui/core';
 import Image from 'next/image';
+import { ObjectId } from 'mongodb';
 
 interface PageProps {
   post: Post;
   mdxSource: MDXRemoteSerializeResult;
+  comments: Comment[];
 }
 
 export default function (props: PageProps) {
@@ -37,7 +40,7 @@ export default function (props: PageProps) {
     userAvatars: string[]
   }>();
 
-  const [comments, setComments] = useState<Comment[]>();
+  const [comments, setComments] = useState<Comment[]>(props.comments);
 
   const [commentInput, setCommentInput] = useState('');
 
@@ -427,6 +430,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       if (!post) {
         return { notFound: true };
       }
+      const comments = await getComments(new ObjectId(post._id));
       const mdxSource = await serialize(post.content);
       return {
         revalidate: 10,
@@ -434,7 +438,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
           key: postId,
           postId,
           post: serializePost(post),
-          mdxSource
+          mdxSource,
+          comments: comments.map(c => {
+            c._id = c._id.toHexString();
+            c.userId = c.userId.toHexString();
+            c.postId = c.postId.toHexString();
+            c.createdAt = c.createdAt.toISOString();
+            c.author._id = c.author._id.toHexString();
+            return c;
+          })
         }
       };
     } catch (error) {
