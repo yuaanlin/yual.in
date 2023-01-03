@@ -5,6 +5,7 @@ import SocialLinks from '../../components/SocialLinks';
 import { useSession } from '../../src/session';
 import { GOOGLE_OAUTH_CLIENT_ID } from '../../config.client';
 import { getPostsInMongo } from '../../services/getPosts';
+import User from '../../models/user';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -12,7 +13,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import cx from 'classnames';
 import { ArrowLeft, Heart } from 'react-feather';
-import { Avatar } from '@geist-ui/core';
+import { Avatar, useToasts } from '@geist-ui/core';
 import Image from 'next/image';
 
 interface PageProps {
@@ -28,12 +29,46 @@ export default function (props: PageProps) {
   const postId = parsePost(post)._id.toHexString();
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
   const session = useSession();
+  const toast = useToasts();
   const [posts, setPosts] = useState<Post[]>([]);
   const [likes, setLikes] = useState<{
     userLike: number,
     likeCount: number,
     userAvatars: string[]
   }>();
+
+  const [comments, setComments] = useState<{
+    author: User,
+    content: string,
+    createdAt: Date
+    replies: {
+      author: User,
+      content: string,
+      createdAt: Date
+    }[]
+  }[]>([]);
+
+  const [commentInput, setCommentInput] = useState('');
+
+  async function submitComment() {
+    if (!commentInput) return;
+    try {
+      const res = await fetch(`/api/posts/${postId}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: commentInput })
+      });
+      if (res.status === 200) {
+        setCommentInput('');
+        await refresh();
+      }
+    } catch (e) {
+      toast.setToast({
+        text: '發生錯誤，暫時無法留言！',
+        type: 'error'
+      });
+    }
+  }
 
   useEffect(() => {
     refresh();
@@ -48,19 +83,25 @@ export default function (props: PageProps) {
       const posts = await fetch('/api/posts');
       const postsData = await posts.json();
       setPosts(postsData.map((p: Post) => parsePost(p)));
+      const comments = await fetch('/api/posts/' + postId + '/comments');
+      const commentsData = await comments.json();
     } catch (err) {
       console.error(err);
     }
   }
 
+  function login() {
+    window.location.href =
+      'https://accounts.google.com/o/oauth2/v2/auth' +
+      '?response_type=code' +
+      `&client_id=${GOOGLE_OAUTH_CLIENT_ID}` +
+      '&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile' +
+      `&redirect_uri=https://${window.location.host}/api/login&state=/posts/${postId}`;
+  }
+
   async function handleLike() {
     if (!session.session) {
-      window.location.href =
-        'https://accounts.google.com/o/oauth2/v2/auth' +
-        '?response_type=code' +
-        `&client_id=${GOOGLE_OAUTH_CLIENT_ID}` +
-        '&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile' +
-        `&redirect_uri=https://${window.location.host}/api/login&state=/posts/${postId}`;
+      login();
       return;
     }
     if (!likes || likes.userLike >= 10) return;
@@ -188,6 +229,60 @@ export default function (props: PageProps) {
 
       <div className="w-full pb-32 pt-16 bg-zinc-50">
         <div className="w-full lg:w-[650px] px-4 mx-auto">
+          <p
+            className="font-extrabold opacity-60 mb-4
+              text-center md:text-left">
+            分享你的看法
+          </p>
+          <div
+            className={`flex w-full gap-4 items-center my-8 
+            ${!session.session ? 'opacity-50 cursor-pointer' : ''}`}
+          >
+            {session.session ?
+              <img
+                src={session.session?.avatarUrl}
+                alt="author-avatar"
+                className="w-8 h-8 rounded-full"
+              />
+              : <div className="w-8 h-8 rounded-full bg-gray-200"/>}
+            <input
+              className={`rounded-lg border-gray-200 border px-4 py-2 flex-grow 
+              ${!session.session ? 'cursor-pointer' : ''}`}
+              placeholder={session.session ? '' : '點擊即可登入並留言'}
+              onClick={() => !session.session && login()}
+            />
+            <button
+              className="bg-black text-white rounded-lg px-4 py-2 rounded-lg"
+              onClick={() => !session.session ? login() : submitComment()}
+            >
+              留言
+            </button>
+          </div>
+
+          {comments?.map((comment, index) =>
+            <div key={index} className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <img
+                  src={comment.author.avatarUrl}
+                  alt="author-avatar"
+                  className="w-8 h-8 rounded-full"
+                />
+                <p className="font-extrabold">{comment.content}</p>
+                <p className="opacity-60">{comment.createdAt.toISOString()}</p>
+              </div>
+              <p>{comment.content}</p>
+            </div>
+          )}
+
+          {comments?.length === 0 && <p className="text-center opacity-60">
+            暫無留言，你可以成為第一個留言的人！
+          </p>}
+
+        </div>
+      </div>
+
+      <div className="w-full pb-32 pt-16 bg-zinc-100">
+        <div className="w-full lg:w-[650px] px-4 mx-auto">
           <div className="flex items-center mt-12 flex-col md:flex-row">
             <img
               src="https://avatars.githubusercontent.com/u/21105863?v=4"
@@ -217,10 +312,11 @@ export default function (props: PageProps) {
           </div>
         </div>
       </div>
-      <div className="w-full pb-32 pt-16 bg-zinc-100">
+
+      <div className="w-full pb-32 pt-16 text-white bg-zinc-900">
         <div className="w-full lg:w-[650px] px-4 mx-auto">
           <p className="mb-16 font-extrabold text-center md:text-left">
-            閱讀更多
+            你可能也會喜歡
           </p>
           {posts
             .filter(p => p._id.toHexString() !== postId)
@@ -246,11 +342,11 @@ export default function (props: PageProps) {
                   </p>
                   <p
                     className="opacity-40 my-4 group-hover:translate-x-4
-                   transition-all duration-1000 text-[#473633] font-extrabold">
+                   transition-all duration-1000 font-extrabold">
                     {p.createdAt.toLocaleDateString()}
                   </p>
                   <p
-                    className="lg:opacity-40 group-hover:opacity-100
+                    className="lg:opacity-80 group-hover:opacity-100
                   transition-all">
                     {p.content}
                   </p>
