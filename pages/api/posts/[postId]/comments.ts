@@ -34,6 +34,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         await mongo.close();
         res.status(404).json({ error: 'Post not found' });
       }
+      return;
     case 'GET':
       try {
         const comments = await mongo
