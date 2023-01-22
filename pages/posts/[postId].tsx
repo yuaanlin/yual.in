@@ -249,7 +249,8 @@ export default function (props: PageProps) {
               onChange={e => setCommentInput(e.target.value)}
             />
             <button
-              className="bg-black text-white rounded-lg px-4 py-2 rounded-lg"
+              className="bg-black text-white rounded-lg px-4 py-2
+              rounded-lg shrink-0"
               onClick={() => !session.session ? login() : submitComment()}
             >
               留言

@@ -98,6 +98,35 @@ export default function (props: { posts: Post[] }) {
             }
           })}
         </div>
+
+        <div
+          className="w-full flex justify-center items-center
+        text-xs mt-8 lg:mt-24 flex-wrap"
+        >
+          <div className="flex w-full lg:w-auto justify-center">
+            <p>這個部落格是使用</p>
+            <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
+              <img
+                src="/nextjs.svg"
+                alt="next.js"
+                className="h-4 mx-2 inline mb-1"
+              />
+            </a>
+            <p>框架開發，</p>
+          </div>
+          <div className="flex w-full lg:w-auto justify-center mt-6 lg:mt-0">
+            <p>並且自動部署於</p>
+            <a href="https://zeabur.com/" target="_blank" rel="noreferrer">
+              <img
+                src="/zeabur.svg"
+                alt="zeabur"
+                className="h-4 mx-2 inline mb-1"
+              />
+            </a>
+            <p>服務部署平台</p>
+          </div>
+        </div>
+
       </div>
       <div
         id="g_id_onload"
