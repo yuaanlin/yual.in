@@ -4,6 +4,7 @@ const withBundleAnalyzer =
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: { isrMemoryCacheSize: 0, },
   images: {
     domains: [
       'images.unsplash.com',
