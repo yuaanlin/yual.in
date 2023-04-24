@@ -1,18 +1,16 @@
-import { ObjectID } from 'bson';
-
 interface User {
-  _id: ObjectID
-  name: string
-  email: string
-  avatarUrl: string
-  googleID: string
-  registeredAt: Date
+  _id: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+  googleID: string;
+  registeredAt: Date;
 }
 
 export function parseUser(data: User) {
   return {
     ...data,
-    _id: new ObjectID(data._id),
+    _id: data._id,
     registeredAt: new Date(data.registeredAt)
   };
 }

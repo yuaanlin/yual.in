@@ -1,7 +1,5 @@
-import { ObjectID } from 'bson';
-
 interface Post {
-  _id: ObjectID;
+  _id: string;
   title: string;
   createdAt: Date;
   updatedAt: Date;
@@ -14,7 +12,7 @@ interface Post {
 export function parsePost(data: Post) {
   return {
     ...data,
-    _id: new ObjectID(data._id),
+    _id: data._id,
     createdAt: new Date(data.createdAt),
     updatedAt: new Date(data.updatedAt)
   };

@@ -7,7 +7,12 @@ export async function getPostBySlug(slug: string): Promise<Post> {
   try {
     const collection = client.db('blog').collection('posts');
     const find = await collection.findOne({ slug });
-    return find as Post;
+
+    return {
+      ...find,
+      _id: find?._id.toHexString()
+    } as Post;
+
   } finally {
     await client.close();
   }
@@ -18,7 +23,10 @@ async function getPost(postId: string): Promise<Post> {
   try {
     const collection = client.db('blog').collection('posts');
     const find = await collection.findOne({ _id: new ObjectId(postId) });
-    return find as Post;
+    return {
+      ...find,
+      _id: find?._id.toHexString()
+    } as Post;
   } finally {
     await client.close();
   }

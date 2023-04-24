@@ -29,7 +29,7 @@ export default function (props: PageProps) {
     post,
     mdxSource
   } = props;
-  const postId = parsePost(post)._id.toHexString();
+  const postId = parsePost(post)._id;
   const [shouldHideWhiteLogo, setShouldHideWhiteLogo] = useState(false);
   const session = useSession();
   const toast = useToasts();
@@ -326,11 +326,11 @@ export default function (props: PageProps) {
             你可能也會喜歡
           </p>
           {posts
-            .filter(p => p._id.toHexString() !== postId)
+            .filter(p => p._id !== postId)
             .sort(() => Math.random() - 0.5)
             .slice(0, 5)
             .map(p => <Link
-              key={p._id.toHexString()}
+              key={p._id}
               href="/posts/[postId]"
               as={`/posts/${p._id}`}>
               <div

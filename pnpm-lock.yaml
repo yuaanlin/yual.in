@@ -22,9 +22,6 @@ dependencies:
   axios:
     specifier: ^0.27.2
     version: 0.27.2
-  bson:
-    specifier: ^5.2.0
-    version: 5.2.0
   classnames:
     specifier: ^2.3.1
     version: 2.3.1
@@ -988,11 +985,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       buffer: 5.7.1
-    dev: false
-
-  /bson@5.2.0:
-    resolution: {integrity: sha512-HevkSpDbpUfsrHWmWiAsNavANKYIErV2ePXllp1bwq5CDreAaFVj6RVlZpJnxK4WWDCJ/5jMUpaY6G526q3Hjg==}
-    engines: {node: '>=14.20.1'}
     dev: false
 
   /buffer-equal-constant-time@1.0.1:
