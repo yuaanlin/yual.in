@@ -1,7 +1,7 @@
 import Post from '../models/post';
 import { MongoClient } from 'mongodb';
 
-const uri = process.env['MONGODB_URI'];
+const uri = process.env['MONGODB_URI_EXTERNAL'];
 
 export async function getPostsInMongo(): Promise<Post[]> {
   if (!uri) throw new Error('Server cannot connect to database.');
