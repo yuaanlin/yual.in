@@ -2,7 +2,7 @@ import LineIcon from './LineIcon';
 import { Facebook, GitHub, Globe, Instagram, Linkedin } from 'react-feather';
 
 interface Props {
-  color?: string
+  color?: string;
 }
 
 function SocialLinks(props: Props) {
@@ -14,42 +14,42 @@ function SocialLinks(props: Props) {
       <Globe
         size={18}
         className="transition hover:text-zinc-500"
-        color={props.color} />
+        color={props.color}/>
     </a>
     <a
       href="https://github.com/yuaanlin"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
-      <GitHub size={18} color={props.color} />
+      <GitHub size={18} color={props.color}/>
     </a>
     <a
       href="https://www.linkedin.com/in/yuanlinlin"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
-      <Linkedin size={18} color={props.color} />
+      <Linkedin size={18} color={props.color}/>
     </a>
     <a
-      href="https://www.instagram.com/yuanlin___/"
+      href="https://www.instagram.com/yuaanlin/"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
-      <Instagram size={18} color={props.color} />
+      <Instagram size={18} color={props.color}/>
     </a>
     <a
-      href="https://www.facebook.com/ken20001207"
+      href="https://www.facebook.com/yuaanlin"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
-      <Facebook size={18} color={props.color} />
+      <Facebook size={18} color={props.color}/>
     </a>
     <a
       href="https://line.me/ti/p/mpo9ZLZb3t"
       className="ml-4 transition hover:text-zinc-500"
       target="_blank"
       rel="noreferrer">
-      <LineIcon color={props.color} size={20} />
+      <LineIcon color={props.color} size={20}/>
     </a>
   </div>;
 }
