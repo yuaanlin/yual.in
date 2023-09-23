@@ -4,7 +4,6 @@ interface Post {
   createdAt: Date;
   updatedAt: Date;
   coverImageUrl: string;
-  blurCoverImageDataUrl: string;
   content: string;
   slug: string;
 }

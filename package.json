@@ -23,12 +23,10 @@
     "next": "12.1.5",
     "next-mdx-remote": "^4.0.3",
     "nprogress": "^0.2.0",
-    "plaiceholder": "^2.5.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-feather": "^2.0.10",
-    "react-syntax-highlighter": "^15.5.0",
-    "sharp": "^0.31.3"
+    "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
     "@mdx-js/react": "^2.3.0",

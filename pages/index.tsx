@@ -8,9 +8,6 @@ import ChiefNoobLogo from '../public/chiefnoob.png';
 import Link from 'next/link';
 import cx from 'classnames';
 import { GetStaticProps } from 'next';
-import { getPlaiceholder } from 'plaiceholder';
-import path from 'path';
-import * as fs from 'fs';
 
 type Card = { type: 'Article', data: Post, key: string }
   | { type: 'ChiefNoob', key: string };
@@ -143,31 +140,6 @@ export default function (props: { posts: Post[] }) {
 export const getStaticProps: GetStaticProps = async () => {
   let postsInMongo: any = await getPostsInMongo();
   postsInMongo = postsInMongo.map(serializePost);
-  const cacheDir = path.join(
-    process.cwd(),
-    'public',
-    '.cache',
-  );
-  if (!fs.existsSync(cacheDir)) {
-    fs.mkdirSync(cacheDir);
-  }
-  await Promise.all(
-    postsInMongo.map(async (p: Post) => {
-      const cachePath = path.join(
-        process.cwd(),
-        'public',
-        '.cache',
-        `${p.slug}.txt`
-      );
-      if (fs.existsSync(cachePath)) {
-        p.blurCoverImageDataUrl = fs.readFileSync(cachePath, 'utf-8');
-      } else {
-        console.info('generating placeholder for ', p.slug, ' ...');
-        const { base64 } = await getPlaiceholder(p.coverImageUrl);
-        p.blurCoverImageDataUrl = base64;
-        fs.writeFileSync(cachePath, base64);
-      }
-    }));
   return {
     props: { posts: postsInMongo },
     revalidate: 10

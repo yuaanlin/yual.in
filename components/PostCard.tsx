@@ -27,8 +27,6 @@ function PostCard(props: Props) {
           <Image
             layout="fill"
             objectFit="cover"
-            placeholder="blur"
-            blurDataURL={post.blurCoverImageDataUrl}
             src={post.coverImageUrl}
             alt=""/>
         </div>
