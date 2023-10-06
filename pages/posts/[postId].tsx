@@ -91,7 +91,7 @@ export default function (props: PageProps) {
       '?response_type=code' +
       `&client_id=${GOOGLE_OAUTH_CLIENT_ID}` +
       '&scope=openid%20email%20https://www.googleapis.com/auth/userinfo.profile' +
-      `&redirect_uri=https://${window.location.host}/api/login&state=/posts/${postId}`;
+      `&redirect_uri=https://${window.location.host}/api/login&state=/posts/${post.slug}`;
   }
 
   async function handleLike() {
