@@ -4,13 +4,20 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
+  console.log(new Date().toISOString(),
+    req.method + ' /api/posts/[postId]/likes');
+
   const { postId } = req.query;
   if (!postId || typeof postId !== 'string') {
     res.status(400).json({ error: 'postId is required' });
     return;
   }
   const postObjectId = new ObjectId(postId);
+
+  console.log(new Date().toISOString(), 'getMongoClient');
   const mongo = await getMongoClient();
+  console.log(new Date().toISOString(), 'getMongoClient done');
+
   switch (req.method) {
     case 'POST':
       const token = req.cookies.token;
@@ -52,23 +59,40 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       try {
         let userLike = 0;
         const token = req.cookies.token;
+        console.log(new Date().toISOString(), 'verifyJwt');
         const user = await verifyJwt(token);
+        console.log(new Date().toISOString(), 'verifyJwt done');
         if (user) {
+          console.log(new Date().toISOString(), 'countDocuments');
           userLike = await mongo.db('blog').collection('likes')
             .countDocuments({
               userId: user._id,
               postId: postObjectId,
             });
+          console.log(new Date().toISOString(), 'countDocuments done');
         }
-        const find = await mongo.db('blog').collection('likes')
+
+        console.log(new Date().toISOString(), 'find');
+        const find = mongo.db('blog').collection('likes')
           .find({ postId: postObjectId });
         const likes = await find.toArray();
+        console.log(new Date().toISOString(), 'find done');
+
         const likeUserIds = likes.map(like => like.userId);
+
+        console.log(new Date().toISOString(), 'find users');
         const users = await mongo.db('blog').collection('users')
           .find({ _id: { $in: likeUserIds } })
           .toArray();
+        console.log(new Date().toISOString(), 'find users done');
+
         const userAvatars = users.map(user => user.avatarUrl);
+        console.log(new Date().toISOString(), 'find users done');
+
+        console.log(new Date().toISOString(), 'close mongo');
         await mongo.close();
+        console.log(new Date().toISOString(), 'close mongo done');
+
         res.status(200).json({
           userLike,
           likeCount: likes.length,
