@@ -30,7 +30,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       try {
         const count = await mongo.db('blog').collection('likes')
           .countDocuments({
-            userId: user._id,
+            userId: new ObjectId(user._id),
             postId: postObjectId,
           });
         if (count >= 10) {
@@ -39,7 +39,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           return;
         }
         await mongo.db('blog').collection('likes').insertOne({
-          userId: user._id,
+          userId: new ObjectId(user._id),
           postId: postObjectId,
           likedAt: new Date(),
         });
