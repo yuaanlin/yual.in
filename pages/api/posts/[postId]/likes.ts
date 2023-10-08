@@ -66,7 +66,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           console.log(new Date().toISOString(), 'countDocuments');
           userLike = await mongo.db('blog').collection('likes')
             .countDocuments({
-              userId: user._id,
+              userId: new ObjectId(user._id),
               postId: postObjectId,
             });
           console.log(new Date().toISOString(), 'countDocuments done');
