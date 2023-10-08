@@ -129,7 +129,7 @@ export default function (props: PageProps) {
         canonicalUrl={`https://yuanlin.dev/posts/${post.slug}`}
         title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
         type="article"
-        imageUrl={`/api/og_image?url=/posts/${postId}`}
+        imageUrl={`/og_image/${post.slug}`}
         description={post?.content.substring(0, 100) + '...'}
       />
       <div
