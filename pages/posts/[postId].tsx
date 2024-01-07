@@ -153,7 +153,7 @@ export default function (props: PageProps) {
         <SocialLinks color={shouldHideWhiteLogo ? 'black' : 'white'}/>
       </div>
       <div
-        className="w-full lg:h-[46rem] h-[36rem] overflow-hidden
+        className="w-full lg:h-[46rem] h-[32rem] overflow-hidden
          relative flex justify-center">
         <Image
           layout="fill"
@@ -192,13 +192,13 @@ export default function (props: PageProps) {
 
         </div>
       </div>
-      <div className="w-full lg:w-[650px] px-4 mx-auto min-h-screen pb-32">
+      <div className="w-full lg:w-[650px] px-7 mx-auto min-h-screen pb-32">
         <div id="article" className="my-16">
           {!post && <ArticleSkeleton/>}
           <MDXRemote {...mdxSource} />
         </div>
 
-        {likes && <div>
+        {likes && <div className="overflow-hidden">
           <div
             onClick={handleLike}
             className="group flex items-center
@@ -260,7 +260,7 @@ export default function (props: PageProps) {
           {comments?.map((comment, index) =>
             <div
               key={index}
-              className="flex flex-col gap-4 my-8"
+              className="flex flex-col gap-4 my-8 overflow-x-hidden"
             >
               <div className="flex items-center gap-4">
                 <img
@@ -432,7 +432,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
         return { notFound: true };
       }
       const comments = await getComments(new ObjectId(post._id));
-      const mdxSource = await serialize(post.content);
+      const mdxSource = await serialize(post.content,
+        { mdxOptions: { development: false }, });
       return {
         revalidate: 10,
         props: {

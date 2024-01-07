@@ -64,9 +64,10 @@ const mdxComponents = {
         alt={props.alt}
         className="shadow-lg rounded-xl lg:hover:scale-105
        transition-all duration-200 hover:shadow-2xl mt-16"/>
-      {isLoaded && <span className="text-center text-xs opacity-50 mb-16">
-        {props.alt}
-      </span>}
+      {isLoaded &&
+        <span className="text-center text-xs opacity-50 mb-16 leading-tight">
+          {props.alt}
+        </span>}
     </>;
   }
 };
