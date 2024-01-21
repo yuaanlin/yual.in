@@ -29,7 +29,7 @@ export default function (props: { posts: Post[] }) {
 
   return (
     <div className="min-h-screen">
-      <PageHead canonicalUrl="https://yuanlin.dev"/>
+      <PageHead canonicalUrl="https://yual.in"/>
       <div
         className="container 2xl:px-32 px-6 lg:px-12 mx-auto flex
        flex-row py-8 lg:pb-24 flex-wrap">

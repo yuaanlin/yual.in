@@ -126,7 +126,7 @@ export default function (props: PageProps) {
   return (
     <div>
       <PageHead
-        canonicalUrl={`https://yuanlin.dev/posts/${post.slug}`}
+        canonicalUrl={`https://yual.in/posts/${post.slug}`}
         title={(post ? post.title : 'Blog') + '| Yuanlin Lin 林沅霖'}
         type="article"
         imageUrl={`/og_image/${post.slug}`}

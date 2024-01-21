@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 async function generateImage(slug: string, res: ServerResponse) {
-  const font = await fetch('https://yuanlin.dev/NotoSansTC-Bold.otf');
+  const font = await fetch('https://yual.in/NotoSansTC-Bold.otf');
   const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
   GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
   const post = await getPostBySlug(slug);

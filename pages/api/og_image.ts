@@ -14,15 +14,22 @@ const MIME_MAP: any = {
  * @param {import('@vercel/node').VercelResponse} res
  */
 export default async function generateImage(req: any, res: any) {
-  const { url, type = 'png' } = req.query;
+  const {
+    url,
+    type = 'png'
+  } = req.query;
   let encodeType = SUPPORTED_ENCODING.has(type) ? type : 'png';
   if (url.startsWith('/posts')) {
     const postId = url.split('/')[2];
-    const font = await fetch('https://yuanlin.dev/NotoSansTC-Bold.otf');
+    const font = await fetch('https://yual.in/NotoSansTC-Bold.otf');
     const fontBuffer = arrayBufferToBuffer(await font.arrayBuffer());
     GlobalFonts.register(fontBuffer, 'NotoSansTC-Bold');
     const post = await getPost(postId);
-    const { title, content, coverImageUrl } = post;
+    const {
+      title,
+      content,
+      coverImageUrl
+    } = post;
     const cover = await fetch(coverImageUrl);
     const coverBuffer = arrayBufferToBuffer(await cover.arrayBuffer());
     const coverImage = new Image();
@@ -101,8 +108,8 @@ function printAt(
 }
 
 /**
-* https://stackoverflow.com/questions/21961839/simulation-background-size-cover-in-canvas
-**/
+ * https://stackoverflow.com/questions/21961839/simulation-background-size-cover-in-canvas
+ **/
 function drawImageProp(
   ctx: SKRSContext2D,
   img: any,

@@ -1,6 +1,6 @@
-# yuanlin.dev
+# yual.in
 
-This is my blog (https://yuanlin.dev/). Built with following cool technologies:
+This is my blog (https://yual.in/). Built with the following cool technologies:
 
 ![](https://skillicons.dev/icons?i=ts,next,tailwind,mongodb)
 
@@ -17,14 +17,15 @@ This is my blog (https://yuanlin.dev/). Built with following cool technologies:
 - [x] Basic Post Page
 - [x] Basic query posts API
 - [x] Basic query post API
-- [x] Next.js Static Site Generate (SSG) 
+- [x] Next.js Static Site Generate (SSG)
 - [x] Dynamic meta tags and og image
 - [x] Social media links
 - [x] Sitemap and structured data
 - [x] About author
 - [ ] Query posts API paging and optimization
 - [ ] MDX components: Callout
-- [ ] MDX components: Select Question (just like practice part of Next.js learning
+- [ ] MDX components: Select Question (just like practice part of Next.js
+  learning
   website)
 - [x] Visitor Google Login
 - [x] Give ❤️ Like to post
