@@ -367,6 +367,22 @@ export default function (props: PageProps) {
               <p>回部落格首頁</p>
             </div>
           </Link>
+          <div
+            className="w-full flex justify-between items-center
+        text-xs mt-8 lg:mt-12 flex-wrap"
+          >
+            <p className="mb-4 lg:mb-0">
+              © {new Date().getFullYear()} Yuanlin Lin. All rights reserved.
+            </p>
+            <a
+              href="https://zeabur.com?referralCode=yuaanlin&utm_source=yual.in"
+            >
+              <img
+                src="https://zeabur.com/deployed-on-zeabur-dark.svg"
+                alt="Deployed on Zeabur"
+              />
+            </a>
+          </div>
         </div>
       </div>}
 

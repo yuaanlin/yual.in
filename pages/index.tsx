@@ -99,31 +99,20 @@ export default function (props: { posts: Post[] }) {
         </div>
 
         <div
-          className="w-full flex justify-center items-center
-        text-xs mt-8 lg:mt-24 flex-wrap"
+          className="w-full flex justify-between items-center
+        text-xs mt-8 lg:mt-12 flex-wrap"
         >
-          <div className="flex w-full lg:w-auto justify-center">
-            <p>這個部落格是使用</p>
-            <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
-              <img
-                src="/nextjs.svg"
-                alt="next.js"
-                className="h-4 mx-2 inline mb-1"
-              />
-            </a>
-            <p>框架開發，</p>
-          </div>
-          <div className="flex w-full lg:w-auto justify-center mt-6 lg:mt-0">
-            <p>並且自動部署於</p>
-            <a href="https://zeabur.com/" target="_blank" rel="noreferrer">
-              <img
-                src="/zeabur.svg"
-                alt="zeabur"
-                className="h-4 mx-2 inline mb-1"
-              />
-            </a>
-            <p>服務部署平台</p>
-          </div>
+          <p className="mb-4 lg:mb-0">
+            © {new Date().getFullYear()} Yuanlin Lin. All rights reserved.
+          </p>
+          <a
+            href="https://zeabur.com?referralCode=yuaanlin&utm_source=yual.in"
+          >
+            <img
+              src="https://zeabur.com/deployed-on-zeabur-dark.svg"
+              alt="Deployed on Zeabur"
+            />
+          </a>
         </div>
 
       </div>
