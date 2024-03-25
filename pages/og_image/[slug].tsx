@@ -61,6 +61,8 @@ async function generateImage(slug: string, res: ServerResponse) {
   const buffer = await canvas.encode('png');
   res.setHeader('Content-Type', 'image/png');
   res.setHeader('Content-Disposition', 'inline');
+  res.setHeader('Cache-Control',
+    'public, s-maxage=86400, stale-while-revalidate=86400');
   res.end(buffer);
 }
 
