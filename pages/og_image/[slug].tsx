@@ -115,7 +115,7 @@ function printAt(
  **/
 function drawImageProp(
   ctx: SKRSContext2D,
-  img: any,
+  img: Image,
   x: number,
   y: number,
   w: number,
@@ -123,29 +123,23 @@ function drawImageProp(
   offsetX: number,
   offsetY: number
 ) {
-
-  if (arguments.length === 2) {
-    x = y = 0;
-    w = ctx.canvas.width;
-    h = ctx.canvas.height;
-  }
-
-  // default offset is center
-  offsetX = typeof offsetX === 'number' ? offsetX : 0.5;
-  offsetY = typeof offsetY === 'number' ? offsetY : 0.5;
-
   // keep bounds [0.0, 1.0]
-  if (offsetX < 0) offsetX = 0;
-  if (offsetY < 0) offsetY = 0;
-  if (offsetX > 1) offsetX = 1;
-  if (offsetY > 1) offsetY = 1;
+  let ox = offsetX;
+  if (offsetX < 0) ox = 0;
+  if (offsetX > 1) ox = 1;
+  let oy = offsetY;
+  if (offsetY < 0) oy = 0;
+  if (offsetY > 1) oy = 1;
 
-  var iw = img.width,
-    ih = img.height,
-    r = Math.min(w / iw, h / ih),
-    nw = iw * r, // new prop. width
-    nh = ih * r, // new prop. height
-    cx, cy, cw, ch, ar = 1;
+  const iw = img.width;
+  const ih = img.height;
+  const r = Math.min(w / iw, h / ih);
+
+  // new prop.width
+  let nw = iw * r;
+  // new prop.height
+  let nh = ih * r;
+  let ar = 1;
 
   // decide which gap to fill
   if (nw < w) ar = w / nw;
@@ -154,11 +148,11 @@ function drawImageProp(
   nh *= ar;
 
   // calc source rectangle
-  cw = iw / (nw / w);
-  ch = ih / (nh / h);
+  let cw = iw / (nw / w);
+  let ch = ih / (nh / h);
 
-  cx = (iw - cw) * offsetX;
-  cy = (ih - ch) * offsetY;
+  let cx = (iw - cw) * ox;
+  let cy = (ih - ch) * oy;
 
   // make sure source rectangle is valid
   if (cx < 0) cx = 0;
